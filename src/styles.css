@@ -160,6 +160,50 @@ button { color: inherit; }
 .primary-button:active { transform: translateY(1px); }
 .primary-button:disabled, .google-button:disabled { cursor: not-allowed; opacity: .5; }
 .wide-button { width: 100%; margin-top: 2px; }
+.food-search-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 9px; }
+.food-search-button { min-height: 40px; }
+.food-data-note { margin: -8px 0 0; color: #818181; font-size: 9px; line-height: 1.55; }
+.food-results { display: grid; gap: 6px; }
+.food-results-heading { display: flex; justify-content: space-between; padding-bottom: 5px; color: #b5b5b5; font-family: "DM Mono", monospace; font-size: 8px; letter-spacing: .09em; }
+.food-results-heading > span { color: #777; }
+.food-result { display: grid; grid-template-columns: minmax(0, 1fr) auto 15px; align-items: center; gap: 8px; width: 100%; padding: 10px; color: #eee; text-align: left; background: #101010; border: 1px solid #2a2a2a; border-radius: 6px; cursor: pointer; }
+.food-result:hover { background: #1a1112; border-color: #6d2229; }
+.food-result-copy { display: grid; min-width: 0; gap: 4px; }
+.food-result-copy strong { overflow: hidden; font-size: 11px; font-weight: 600; text-overflow: ellipsis; }
+.food-result-copy > span { overflow: hidden; color: #828282; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+.food-result-calories { color: #f1f1f1; font-size: 10px; white-space: nowrap; }
+.food-result-calories small { color: #858585; font-size: 8px; }
+.food-result-chevron { color: #a9a9a9; transform: rotate(-90deg); }
+.selected-food-form { display: grid; gap: 14px; padding: 14px; background: #171011; border: 1px solid #572027; border-radius: 8px; }
+.selected-food-heading { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+.selected-food-heading > div { display: grid; gap: 5px; min-width: 0; }
+.selected-food-heading strong { color: #f2f2f2; font-size: 12px; line-height: 1.45; }
+.selected-food-heading small { color: #8b8585; font-size: 9px; }
+.text-button { flex: none; padding: 3px 0; color: #ff858d; background: transparent; border: 0; font-size: 10px; cursor: pointer; }
+.grams-field input { max-width: 190px; }
+.food-macro-preview { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.food-macro-preview > div { display: grid; gap: 5px; padding: 9px 7px; background: #101010; border: 1px solid #2a2425; border-radius: 5px; }
+.food-macro-preview > div > span { color: #919191; font-size: 8px; }
+.food-macro-preview strong { color: #f2f2f2; font-family: Manrope, sans-serif; font-size: 13px; }
+.food-macro-preview small { color: #8b8b8b; font-family: "DM Sans", sans-serif; font-size: 8px; font-weight: 400; }
+.custom-food-divider { display: flex; align-items: center; gap: 8px; color: #777; font-family: "DM Mono", monospace; font-size: 7px; letter-spacing: .05em; white-space: nowrap; }
+.custom-food-divider > span { flex: 1; height: 1px; background: #2a2a2a; }
+.add-custom-food { display: inline-flex; align-items: center; justify-self: start; gap: 7px; padding: 0; color: #e4d1d2; background: transparent; border: 0; font-size: 10px; cursor: pointer; }
+.add-custom-food:hover { color: #ff858d; }
+.custom-food-form { display: grid; gap: 14px; padding: 14px; background: #111; border: 1px solid #332628; border-radius: 7px; }
+.custom-food-form > div:first-child { display: grid; gap: 5px; }
+.custom-food-form > div:first-child strong { color: #f0f0f0; font-size: 11px; }
+.custom-food-form > div:first-child > span { color: #929292; font-size: 9px; line-height: 1.5; }
+.custom-food-form .form-fields-grid { gap: 11px; }
+.food-log-section { display: grid; gap: 12px; }
+.empty-food-log { padding: 18px; color: #898989; background: #111; border: 1px solid #292929; border-radius: 8px; font-size: 10px; }
+.food-entry-list { display: grid; overflow: hidden; background: #111; border: 1px solid #292929; border-radius: 8px; }
+.food-entry { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 13px 15px; border-bottom: 1px solid #262626; }
+.food-entry:last-child { border-bottom: 0; }
+.food-entry-main { display: grid; gap: 5px; min-width: 0; }
+.food-entry-main strong { overflow: hidden; color: #eee; font-size: 11px; font-weight: 600; text-overflow: ellipsis; }
+.food-entry-main > span { color: #858585; font-size: 9px; }
+.food-entry-macros { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px 11px; color: #bdbdbd; font-family: "DM Mono", monospace; font-size: 8px; white-space: nowrap; }
 .nutrition-side-card { position: relative; display: flex; flex-direction: column; overflow: hidden; padding: 18px; background: linear-gradient(155deg, #171d15, #121613); }
 .nutrition-side-art { position: relative; display: grid; place-items: center; height: 103px; margin: -1px -4px 12px; overflow: hidden; background: radial-gradient(ellipse at center, #33412755, transparent 66%); }
 .meal-orbit { position: relative; display: grid; place-items: center; width: 75px; height: 75px; border: 1px solid #b4df6a35; border-radius: 50%; }
@@ -175,7 +219,18 @@ button { color: inherit; }
 .nutrition-side-stat > strong { font-family: Manrope, sans-serif; font-size: 17px; }
 .nutrition-side-stat small { color: #89938b; font-family: "DM Sans", sans-serif; font-size: 10px; font-weight: 400; }
 .workout-topline { display: flex; align-items: center; justify-content: space-between; }
+.workout-topline-controls { display: flex; align-items: center; gap: 12px; }
+.workout-date-control { display: grid; gap: 5px; color: #8b8b8b; font-family: "DM Mono", monospace; font-size: 8px; letter-spacing: .08em; }
+.workout-date-control input { min-width: 160px; height: 34px; padding: 0 9px; color: #eee; color-scheme: dark; background: #171717; border: 1px solid #333; border-radius: 6px; outline: none; font-family: "DM Sans", sans-serif; font-size: 10px; }
+.workout-date-control input:focus { border-color: #b62631; box-shadow: 0 0 0 2px #c1121f26; }
+.workout-date-hint { color: #777; font-family: "DM Sans", sans-serif; font-size: 8px; letter-spacing: 0; }
 .workout-unit { color: #7c877e; font-size: 8px; }
+.weight-unit-control { display: flex; align-items: center; gap: 9px; }
+.unit-switch { display: inline-flex; gap: 2px; padding: 3px; background: #141414; border: 1px solid #303030; border-radius: 7px; }
+.unit-switch button { min-width: 34px; height: 25px; padding: 0 8px; color: #858585; background: transparent; border: 0; border-radius: 4px; font-family: "DM Mono", monospace; font-size: 10px; text-transform: uppercase; cursor: pointer; }
+.unit-switch button:hover { color: #fff; }
+.unit-switch button.active { color: #fff; background: #65131b; box-shadow: inset 0 0 0 1px #a52530; }
+.weight-conversion-note { margin: -12px 0 12px; color: #808080; font-size: 9px; }
 .workout-split-card { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 150px; overflow: hidden; margin-bottom: 17px; padding: 24px; background: linear-gradient(112deg, #191f17, #131714 78%); border-color: #2a3328; }
 .split-card-copy { position: relative; z-index: 1; }
 .split-card-copy h2 { margin: 9px 0 5px; font-family: Manrope, sans-serif; font-size: 19px; letter-spacing: -.6px; }
@@ -206,6 +261,8 @@ button { color: inherit; }
 .workout-save-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .workout-save-row > span { display: inline-flex; align-items: center; gap: 7px; color: #7f8b81; font-size: 10px; }
 .workout-save-row > span svg { color: #a4c779; }
+.add-session-button { display: inline-flex; align-items: center; gap: 6px; margin-left: auto; padding: 7px 9px; color: #f2dfe0; background: #241315; border: 1px solid #572027; border-radius: 6px; font-size: 9px; cursor: pointer; }
+.add-session-button:hover { background: #35171b; border-color: #9b3039; }
 .rest-day-card { display: grid; justify-items: center; padding: 40px 20px; text-align: center; }
 .rest-icon { display: grid; place-items: center; width: 53px; height: 53px; margin-bottom: 14px; color: var(--green); background: #26321f; border: 1px solid #3d4c30; border-radius: 17px; font-size: 25px; }
 .rest-day-card h2 { margin: 10px 0 6px; font-family: Manrope, sans-serif; font-size: 19px; letter-spacing: -.6px; }
@@ -328,10 +385,16 @@ button { color: inherit; }
   .cta-button { flex: none; padding: 8px; font-size: 9px; }
   .app-footer { margin-top: 27px; font-size: 7px; }
   .nutrition-layout { grid-template-columns: 1fr; }
+  .food-entry { align-items: flex-start; flex-direction: column; }
+  .food-entry-macros { justify-content: flex-start; }
   .nutrition-side-card { min-height: 280px; }
   .nutrition-side-art { height: 90px; }
   .nutrition-side-stat { margin-top: 20px; }
   .workout-split-card { align-items: flex-start; flex-direction: column; gap: 17px; padding: 19px; }
+  .workout-topline { align-items: flex-end; gap: 10px; }
+  .workout-topline-controls { gap: 0; }
+  .workout-date-control input { min-width: 135px; }
+  .workout-topline-controls .workout-unit { display: none; }
   .split-select-wrap { width: min(220px, 100%); flex-basis: auto; }
   .split-side-icon { top: 0; right: -32px; left: auto; }
   .exercise-section { padding: 16px 12px; }
@@ -340,9 +403,10 @@ button { color: inherit; }
   .exercise-row { padding: 8px 4px; }
   .exercise-row > input, .exercise-name-field input { height: 36px; padding: 0 6px; font-size: 10px; }
   .remove-exercise { width: 24px; }
-  .workout-save-row { align-items: flex-end; }
+  .workout-save-row { align-items: flex-end; flex-wrap: wrap; }
   .workout-save-row > span { max-width: 145px; font-size: 9px; line-height: 1.5; }
-  .workout-save-row .primary-button { padding: 0 10px; font-size: 10px; }
+  .workout-save-row .primary-button { margin-left: auto; padding: 0 10px; font-size: 10px; }
+  .add-session-button { margin-left: 0; }
   .settings-card { padding: 18px 15px; }
   .settings-actions { align-items: flex-start; flex-direction: column; }
   .account-card { padding: 13px; }
@@ -367,6 +431,23 @@ button { color: inherit; }
   .exercise-header-row, .exercise-row { grid-template-columns: minmax(96px, 1fr) 42px 42px 59px 23px; gap: 4px; }
   .exercise-row > input, .exercise-name-field input { padding: 0 4px; font-size: 9px; }
   .exercise-header-row { font-size: 6px; }
+}
+@media (max-width: 420px) {
+  .workout-date-control input { min-width: 126px; }
+  .food-search-form { grid-template-columns: 1fr; }
+  .food-search-button { width: 100%; }
+  .food-result { grid-template-columns: minmax(0, 1fr) 15px; }
+  .food-result-calories { grid-column: 1; grid-row: 2; }
+  .food-result-chevron { grid-column: 2; grid-row: 1 / 3; }
+  .food-macro-preview { gap: 4px; }
+  .food-macro-preview > div { padding: 8px 5px; }
+  .food-macro-preview strong { font-size: 11px; }
+}
+@media (max-width: 420px) {
+  .weight-unit-control { gap: 6px; }
+  .weight-unit-control .workout-unit { font-size: 7px; }
+  .unit-switch button { min-width: 30px; }
+  .weight-conversion-note { line-height: 1.5; }
 }
 
 :root { color-scheme: dark; }

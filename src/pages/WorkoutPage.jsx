@@ -2,13 +2,33 @@ import { useEffect, useState } from "react";
 import { Check, ChevronDown, Dumbbell, Plus, Trash2 } from "../components/Icons.jsx";
 import { splitOptions } from "../data/exercises.js";
 import { useAuth } from "../context/AuthContext.jsx";
-import { getExerciseLibrary, getOrCreateTodayLog, saveDailyLog } from "../services/firestore.js";
+import { getExerciseLibrary, getOrCreateLogForDate, saveDailyLog } from "../services/firestore.js";
 import { formatNumber, getWorkoutVolume } from "../utils/format.js";
+import { getLocalDateString, isValidLogDate } from "../utils/date.js";
 
 const newExercise = () => ({ exercise_name: "", sets: 3, reps: 10, weight: 0 });
+const POUNDS_PER_KILOGRAM = 2.2046226218;
+
+function getInitialWorkoutDate(uid) {
+  const today = getLocalDateString();
+  const savedDate = window.localStorage.getItem(`apex-workout-date-${uid}`);
+  return savedDate && isValidLogDate(savedDate) && savedDate <= today
+    ? savedDate
+    : today;
+}
+
+function toDisplayWeight(pounds, unit) {
+  if (pounds === "" || pounds == null) return "";
+  const value = Number(pounds);
+  if (!Number.isFinite(value)) return "";
+  return unit === "kg"
+    ? String(Number((value / POUNDS_PER_KILOGRAM).toFixed(2)))
+    : String(Number(value.toFixed(2)));
+}
 
 export default function WorkoutPage() {
   const { user } = useAuth();
+  const [selectedDate, setSelectedDate] = useState(() => getInitialWorkoutDate(user.uid));
   const [log, setLog] = useState(null);
   const [exercises, setExercises] = useState([]);
   const [library, setLibrary] = useState([]);
@@ -16,29 +36,87 @@ export default function WorkoutPage() {
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [weightUnit, setWeightUnit] = useState("lb");
+  const [hasSavedWorkout, setHasSavedWorkout] = useState(false);
 
   useEffect(() => {
-    Promise.all([getOrCreateTodayLog(user.uid), getExerciseLibrary()])
-      .then(([today, exerciseLibrary]) => {
-        setLog(today);
-        setLibrary(exerciseLibrary);
-        setExercises(today.workouts?.length ? today.workouts : [newExercise()]);
+    let active = true;
+    getExerciseLibrary()
+      .then((exerciseLibrary) => {
+        if (active) setLibrary(exerciseLibrary);
       })
-      .catch((loadError) => setError(loadError.message))
-      .finally(() => setLoading(false));
-  }, [user.uid]);
+      .catch((loadError) => {
+        if (active) setError(loadError.message);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+    setLoading(true);
+    setError("");
+    setNotice("");
+    setLog(null);
+    setExercises([]);
+    setHasSavedWorkout(false);
+
+    getOrCreateLogForDate(user.uid, selectedDate)
+      .then((dailyLog) => {
+        if (!active) return;
+        setLog(dailyLog);
+        setExercises(dailyLog.workouts?.length ? dailyLog.workouts : [newExercise()]);
+      })
+      .catch((loadError) => {
+        if (active) setError(loadError.message);
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [user.uid, selectedDate]);
+
+  useEffect(() => {
+    window.localStorage.setItem(`apex-workout-date-${user.uid}`, selectedDate);
+  }, [user.uid, selectedDate]);
 
   const activeSplit = log?.split_type || "Rest";
-  const volume = getWorkoutVolume(exercises);
-  const dateLabel = new Intl.DateTimeFormat("en", { weekday: "long", month: "long", day: "numeric" }).format(new Date());
+  const volume = hasSavedWorkout
+    ? getWorkoutVolume(log?.workouts) + getWorkoutVolume(exercises)
+    : getWorkoutVolume(exercises);
+  const selectedDateLabel = new Intl.DateTimeFormat("en", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(`${selectedDate}T12:00:00`));
+  const isToday = selectedDate === getLocalDateString();
 
   function updateExercise(index, field, value) {
     setExercises((current) => current.map((exercise, itemIndex) => itemIndex === index ? { ...exercise, [field]: value } : exercise));
   }
 
+  function updateWeight(index, enteredValue) {
+    const pounds = enteredValue === ""
+      ? ""
+      : Number(enteredValue) * (weightUnit === "kg" ? POUNDS_PER_KILOGRAM : 1);
+    updateExercise(index, "weight", pounds);
+  }
+
   function updateSplit(value) {
     setLog((current) => ({ ...current, split_type: value }));
     setNotice("");
+  }
+
+  function startAnotherWorkout() {
+    setExercises([newExercise()]);
+    setHasSavedWorkout(true);
+    setNotice("");
+    setError("");
   }
 
   async function handleSave(event) {
@@ -52,11 +130,28 @@ export default function WorkoutPage() {
     setError("");
     setNotice("");
     try {
-      const nextLog = { ...log, workouts: activeSplit === "Rest" ? [] : validExercises };
-      await saveDailyLog(user.uid, nextLog);
+      const savedExercises = validExercises.map((exercise) => ({
+        ...exercise,
+        sets: Number(exercise.sets) || 0,
+        reps: Number(exercise.reps) || 0,
+        weight: Number(exercise.weight) || 0,
+      }));
+      const workouts = hasSavedWorkout
+        ? [...(log.workouts || []), ...savedExercises]
+        : savedExercises;
+      const nextLog = {
+        ...log,
+        workouts: activeSplit === "Rest" ? [] : workouts,
+      };
+      await saveDailyLog(user.uid, selectedDate, nextLog);
       setLog(nextLog);
-      setExercises(nextLog.workouts.length ? nextLog.workouts : [newExercise()]);
-      setNotice("Workout saved. Nice work showing up.");
+      setExercises([newExercise()]);
+      setHasSavedWorkout(activeSplit !== "Rest");
+      setNotice(
+        activeSplit === "Rest"
+          ? `Rest day saved for ${selectedDateLabel}.`
+          : `Workout saved for ${selectedDateLabel}. Add another workout whenever you're ready.`,
+      );
     } catch (saveError) {
       setError(saveError.message);
     } finally {
@@ -68,12 +163,44 @@ export default function WorkoutPage() {
     <div className="page-stack">
       {error && <div className="error-card" role="alert">{error}</div>}
       {notice && <div className="success-card" role="status"><Check size={16} />{notice}</div>}
-      {loading && <div className="loading-card">Loading today's workout…</div>}
+      {loading && <div className="loading-card">Loading workout for the selected date…</div>}
       {!loading && log && <>
-      <div className="workout-topline"><span className="date-pill">{dateLabel}</span><span className="workout-unit">WEIGHT IN LBS</span></div>
+      <div className="workout-topline">
+        <label className="workout-date-control">
+          <span>WORKOUT DATE</span>
+          <input
+            type="date"
+            value={selectedDate}
+            max={getLocalDateString()}
+            onChange={(event) => {
+              if (event.target.value) setSelectedDate(event.target.value);
+            }}
+            aria-label="Workout date"
+          />
+          <span className="workout-date-hint">Select a past day to log a missed session.</span>
+        </label>
+        <div className="workout-topline-controls">
+          <div className="weight-unit-control">
+            <span className="workout-unit">WEIGHT UNIT</span>
+            <div className="unit-switch" role="group" aria-label="Weight input unit">
+              {["lb", "kg"].map((unit) => (
+                <button
+                  key={unit}
+                  type="button"
+                  className={weightUnit === unit ? "active" : ""}
+                  aria-pressed={weightUnit === unit}
+                  onClick={() => setWeightUnit(unit)}
+                >
+                  {unit}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
       <form onSubmit={handleSave}>
         <section className="workout-split-card">
-          <div className="split-card-copy"><span className="section-eyebrow">TODAY'S TRAINING</span><h2>What are we working on?</h2><p>Choose a split to get exercise suggestions tailored to your session.</p></div>
+          <div className="split-card-copy"><span className="section-eyebrow">{isToday ? "TODAY'S TRAINING" : "TRAINING FOR SELECTED DATE"}</span><h2>What are we working on?</h2><p>Choose a split to get exercise suggestions tailored to your session.</p></div>
           <label className="split-select-wrap"><span>SPLIT</span><select value={activeSplit} onChange={(event) => updateSplit(event.target.value)}>{splitOptions.map((split) => <option key={split}>{split}</option>)}</select><ChevronDown className="select-chevron" size={16} /></label>
           <div className="split-side-icon"><Dumbbell size={25} strokeWidth={1.4} /></div>
         </section>
@@ -82,8 +209,9 @@ export default function WorkoutPage() {
         ) : (
           <>
             <section className="exercise-section">
-              <div className="exercise-section-heading"><div><span className="section-eyebrow">YOUR SESSION</span><h2>Exercises <span className="exercise-count">{exercises.filter((item) => item.exercise_name).length}</span></h2></div><div className="volume-total"><span>SESSION VOLUME</span><strong>{formatNumber(volume)} <small>lb</small></strong></div></div>
-              <div className="exercise-header-row"><span>EXERCISE</span><span>SETS</span><span>REPS</span><span>WEIGHT · LB</span><span /></div>
+              <div className="exercise-section-heading"><div><span className="section-eyebrow">{isToday ? "YOUR SESSION" : "SESSION FOR SELECTED DATE"}</span><h2>Exercises <span className="exercise-count">{exercises.filter((item) => item.exercise_name).length}</span></h2></div><div className="volume-total"><span>{hasSavedWorkout ? "DAY VOLUME" : "SESSION VOLUME"}</span><strong>{formatNumber(volume)} <small>lb</small></strong></div></div>
+              <div className="exercise-header-row"><span>EXERCISE</span><span>SETS</span><span>REPS</span><span>WEIGHT · {weightUnit.toUpperCase()}</span><span /></div>
+              <p className="weight-conversion-note">Enter any weight. Switching units converts the value; totals are saved in lb.</p>
               <div className="exercise-list">
                 {exercises.map((exercise, index) => (
                   <div className="exercise-row" key={`exercise-${index}`}>
@@ -93,14 +221,31 @@ export default function WorkoutPage() {
                         {library.filter((item) => item.split_category === activeSplit).map((item) => <option key={item.id} value={item.exercise_name} />)}
                       </datalist>
                     </div>
-                    {["sets", "reps", "weight"].map((field) => <input key={field} type="number" min="0" step={field === "weight" ? "any" : "1"} inputMode="decimal" value={exercise[field]} onChange={(event) => updateExercise(index, field, Number(event.target.value))} aria-label={`${field} for ${exercise.exercise_name || `exercise ${index + 1}`}`} />)}
+                    {["sets", "reps"].map((field) => <input key={field} type="number" min="0" step="1" inputMode="numeric" value={exercise[field]} onChange={(event) => updateExercise(index, field, Number(event.target.value))} aria-label={`${field} for ${exercise.exercise_name || `exercise ${index + 1}`}`} />)}
+                    <input
+                      type="number"
+                      min="0"
+                      step="any"
+                      inputMode="decimal"
+                      value={toDisplayWeight(exercise.weight, weightUnit)}
+                      onChange={(event) => updateWeight(index, event.target.value)}
+                      aria-label={`Weight in ${weightUnit} for ${exercise.exercise_name || `exercise ${index + 1}`}`}
+                    />
                     <button className="remove-exercise" type="button" aria-label={`Remove exercise ${index + 1}`} disabled={exercises.length === 1} onClick={() => setExercises((current) => current.filter((_, itemIndex) => itemIndex !== index))}><Trash2 size={15} /></button>
                   </div>
                 ))}
               </div>
-              <button className="add-exercise" type="button" onClick={() => setExercises((current) => [...current, newExercise()])}><span><Plus size={15} /></span> Add another exercise</button>
+              <button className="add-exercise" type="button" onClick={() => setExercises((current) => [...current, newExercise()])}><span><Plus size={15} /></span> {hasSavedWorkout ? "Add another workout" : "Add another exercise"}</button>
             </section>
-            <div className="workout-save-row"><span><Check size={14} /> Your progress saves to today's log</span><button className="primary-button" type="submit" disabled={busy}>{busy ? "Saving workout…" : "Save workout"} {!busy && <Check size={15} />}</button></div>
+            <div className="workout-save-row">
+              <span><Check size={14} /> Saves to {isToday ? "today's" : selectedDateLabel} workout log</span>
+              {log.workouts?.length > 0 && !hasSavedWorkout && (
+                <button className="add-session-button" type="button" onClick={startAnotherWorkout}>
+                  <Plus size={14} /> Add another workout
+                </button>
+              )}
+              <button className="primary-button" type="submit" disabled={busy}>{busy ? "Saving workout…" : "Save workout"} {!busy && <Check size={15} />}</button>
+            </div>
           </>
         )}
       </form>

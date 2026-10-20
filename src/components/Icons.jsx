@@ -17,6 +17,7 @@ export {
   LogOut,
   Menu,
   Plus,
+  Search,
   Settings,
   Sparkles,
   Target,

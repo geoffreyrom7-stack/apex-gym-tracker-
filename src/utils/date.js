@@ -5,6 +5,12 @@ export function getLocalDateString(date = new Date()) {
   return `${year}-${month}-${day}`;
 }
 
+export function isValidLogDate(dateString) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateString)) return false;
+  const parsedDate = new Date(`${dateString}T12:00:00`);
+  return !Number.isNaN(parsedDate.getTime()) && getLocalDateString(parsedDate) === dateString;
+}
+
 export function getLastSevenDates(date = new Date()) {
   return Array.from({ length: 7 }, (_, index) => {
     const day = new Date(date);
