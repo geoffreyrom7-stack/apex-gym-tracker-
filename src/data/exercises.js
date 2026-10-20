@@ -1,0 +1,33 @@
+export const starterExercises = [
+  { id: "push-bench-press", split_category: "Push", exercise_name: "Bench Press" },
+  { id: "push-overhead-press", split_category: "Push", exercise_name: "Overhead Press" },
+  { id: "push-incline-dumbbell-press", split_category: "Push", exercise_name: "Incline Dumbbell Press" },
+  { id: "push-triceps-pushdown", split_category: "Push", exercise_name: "Triceps Pushdown" },
+  { id: "pull-deadlift", split_category: "Pull", exercise_name: "Deadlift" },
+  { id: "pull-barbell-row", split_category: "Pull", exercise_name: "Barbell Row" },
+  { id: "pull-lat-pulldown", split_category: "Pull", exercise_name: "Lat Pulldown" },
+  { id: "pull-face-pull", split_category: "Pull", exercise_name: "Face Pull" },
+  { id: "legs-squat", split_category: "Legs", exercise_name: "Back Squat" },
+  { id: "legs-romanian-deadlift", split_category: "Legs", exercise_name: "Romanian Deadlift" },
+  { id: "legs-leg-press", split_category: "Legs", exercise_name: "Leg Press" },
+  { id: "legs-leg-curl", split_category: "Legs", exercise_name: "Leg Curl" },
+  { id: "shoulders-lateral-raise", split_category: "Shoulders", exercise_name: "Lateral Raise" },
+  { id: "shoulders-rear-delt-fly", split_category: "Shoulders", exercise_name: "Rear Delt Fly" },
+  { id: "shoulders-arnold-press", split_category: "Shoulders", exercise_name: "Arnold Press" },
+  { id: "chest-back-chest-fly", split_category: "Chest & Back", exercise_name: "Cable Chest Fly" },
+  { id: "chest-back-seated-row", split_category: "Chest & Back", exercise_name: "Seated Cable Row" },
+  { id: "chest-back-pull-up", split_category: "Chest & Back", exercise_name: "Pull-up" },
+  { id: "arms-bicep-curl", split_category: "Arms", exercise_name: "Dumbbell Bicep Curl" },
+  { id: "arms-skull-crusher", split_category: "Arms", exercise_name: "Skull Crusher" },
+  { id: "arms-hammer-curl", split_category: "Arms", exercise_name: "Hammer Curl" },
+];
+
+export const splitOptions = [
+  "Push",
+  "Pull",
+  "Legs",
+  "Shoulders",
+  "Chest & Back",
+  "Arms",
+  "Rest",
+];
