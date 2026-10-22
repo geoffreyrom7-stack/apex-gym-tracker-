@@ -20,10 +20,10 @@ import { searchFoods } from "../services/foodSearch.js";
 import { formatNumber } from "../utils/format.js";
 
 const macroFields = [
-  { key: "calories", label: "Calories", unit: "kcal", icon: Flame, color: "#c1121f" },
-  { key: "protein", label: "Protein", unit: "g", icon: Beef, color: "#f2f2f2" },
-  { key: "carbs", label: "Carbs", unit: "g", icon: Leaf, color: "#a6a6a6" },
-  { key: "fats", label: "Fats", unit: "g", icon: Utensils, color: "#777777" },
+  { key: "calories", label: "Calories", unit: "kcal", icon: Flame, color: "#8f3035" },
+  { key: "protein", label: "Protein", unit: "g", icon: Beef, color: "#f1eadf" },
+  { key: "carbs", label: "Carbs", unit: "g", icon: Leaf, color: "#85896b" },
+  { key: "fats", label: "Fats", unit: "g", icon: Utensils, color: "#b69a63" },
 ];
 
 const emptyCustomFood = () => ({

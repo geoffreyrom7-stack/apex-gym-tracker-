@@ -15,6 +15,22 @@ export default function App() {
   const { user, profile, loading, error, signOutUser, refreshProfile } = useAuth();
   const [splashState, setSplashState] = useState("visible");
   const [editingBodyMetrics, setEditingBodyMetrics] = useState(false);
+  const [theme, setTheme] = useState(() => {
+    try {
+      return window.localStorage.getItem("apex-theme") === "light" ? "light" : "dark";
+    } catch {
+      return "dark";
+    }
+  });
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    try {
+      window.localStorage.setItem("apex-theme", theme);
+    } catch (storageError) {
+      console.warn("Could not save the APEX theme preference.", storageError);
+    }
+  }, [theme]);
 
   useEffect(() => {
     if (loading) return undefined;
@@ -54,7 +70,7 @@ export default function App() {
           <Route path="/dashboard" element={<DashboardPage profile={profile} />} />
           <Route path="/workout" element={<WorkoutPage />} />
           <Route path="/nutrition" element={<NutritionPage profile={profile} />} />
-          <Route path="/settings" element={<SettingsPage profile={profile} onProfileUpdate={refreshProfile} onEditBodyMetrics={() => setEditingBodyMetrics(true)} />} />
+          <Route path="/settings" element={<SettingsPage profile={profile} theme={theme} onThemeChange={setTheme} onProfileUpdate={refreshProfile} onEditBodyMetrics={() => setEditingBodyMetrics(true)} />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Route>
       </Routes>

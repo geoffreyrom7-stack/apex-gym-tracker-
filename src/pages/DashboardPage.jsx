@@ -9,10 +9,10 @@ import { getLocalDateString } from "../utils/date.js";
 import { formatNumber, getWorkoutVolume } from "../utils/format.js";
 
 const macroItems = [
-  { key: "calories", label: "Calories", unit: "kcal", color: "#c1121f", icon: Flame },
-  { key: "protein", label: "Protein", unit: "g", color: "#f2f2f2", icon: Beef },
-  { key: "carbs", label: "Carbs", unit: "g", color: "#a6a6a6", icon: Leaf },
-  { key: "fats", label: "Fats", unit: "g", color: "#777777", icon: Target },
+  { key: "calories", label: "Calories", unit: "kcal", color: "#8f3035", icon: Flame },
+  { key: "protein", label: "Protein", unit: "g", color: "#f1eadf", icon: Beef },
+  { key: "carbs", label: "Carbs", unit: "g", color: "#85896b", icon: Leaf },
+  { key: "fats", label: "Fats", unit: "g", color: "#b69a63", icon: Target },
 ];
 
 export default function DashboardPage({ profile }) {

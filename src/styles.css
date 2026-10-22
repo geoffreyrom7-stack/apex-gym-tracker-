@@ -6,19 +6,27 @@
 
 :root {
   font-family: Inter, sans-serif;
-  color: #f2f2f2;
-  background: #090909;
+  color: #f1eadf;
+  background: #0d0c0b;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-optical-sizing: auto;
   font-weight: 400;
-  --blood: #c1121f;
-  --green: var(--blood);
-  --muted: #a5a5a5;
-  --border: #292929;
-  --panel: #121212;
+  --blood: #8f3035;
+  --green: #85896b;
+  --muted: #a69e91;
+  --border: #3c3028;
+  --panel: #171412;
+  --olympus-marble: #f1eadf;
+  --olympus-ash: #a69e91;
+  --olympus-gold: #b69a63;
+  --olympus-laurel: #85896b;
+  --olympus-terracotta: #8f3035;
+  --olympus-bronze: #3c3028;
+  --olympus-basalt: #171412;
+  --olympus-obsidian: #0d0c0b;
 }
 
 * { box-sizing: border-box; }
@@ -828,6 +836,970 @@ body, .main-content, .boot-screen, .boot-error { background-color: #090909; }
 }
 
 .nav-link.active svg {
+  color: var(--olympus-gold-light);
+}
+
+:root {
+  --olympus-gold: #b69a63;
+  --olympus-gold-light: #d2c29d;
+  --olympus-gold-dim: #796746;
+  --olympus-marble: #f1eadf;
+  --olympus-ash: #a69e91;
+  --olympus-laurel: #85896b;
+  --olympus-terracotta: #8f3035;
+  --olympus-bronze: #3c3028;
+  --olympus-basalt: #171412;
+  --olympus-obsidian: #0d0c0b;
+  --chart-axis: #8a8175;
+  --chart-tooltip-bg: #211a17;
+}
+
+body,
+.main-content,
+.boot-screen,
+.boot-error {
+  color: var(--olympus-marble);
+  background-color: var(--olympus-obsidian);
+}
+
+.main-content {
+  background:
+    radial-gradient(ellipse at 88% 2%, #b69a6309, transparent 28rem),
+    transparent;
+}
+
+.sidebar {
+  background: linear-gradient(180deg, #15100e, #0d0c0b 48%, #100e0c);
+  border-color: #302720;
+}
+
+.nav-link {
+  color: #a69e91;
+}
+
+.nav-link:hover {
+  color: var(--olympus-marble);
+  background: #211a17;
+}
+
+.nav-link.active {
+  color: var(--olympus-marble);
+  background: linear-gradient(100deg, #2a1b19, #1b1513);
+  border-color: #5b4432;
+  box-shadow: inset 3px 0 var(--olympus-gold), 0 4px 18px #0003;
+}
+
+.nav-link.active svg,
+.mobile-nav-link.active {
+  color: var(--olympus-gold-light);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --olympus-marble: #29231d;
+  --olympus-ash: #70685d;
+  --olympus-gold: #8c6b32;
+  --olympus-gold-light: #755720;
+  --olympus-gold-dim: #826b47;
+  --olympus-laurel: #66704d;
+  --olympus-terracotta: #963b3e;
+  --olympus-bronze: #d9cebd;
+  --olympus-basalt: #fffdf9;
+  --olympus-obsidian: #f4efe6;
+  --chart-axis: #766e63;
+  --chart-tooltip-bg: #fffdf9;
+  color: var(--olympus-marble);
+  background: var(--olympus-obsidian);
+}
+
+:root[data-theme="light"] body,
+:root[data-theme="light"] .main-content,
+:root[data-theme="light"] .boot-screen,
+:root[data-theme="light"] .boot-error,
+:root[data-theme="light"] .login-page {
+  color: var(--olympus-marble);
+  background-color: var(--olympus-obsidian);
+}
+
+:root[data-theme="light"] body {
+  background-image:
+    radial-gradient(ellipse at 78% 4%, #b69a6310, transparent 32rem),
+    radial-gradient(ellipse at 15% 72%, #85896b0a, transparent 26rem);
+}
+
+:root[data-theme="light"] .main-content {
+  background:
+    radial-gradient(ellipse at 88% 2%, #b69a630b, transparent 28rem),
+    transparent;
+}
+
+:root[data-theme="light"] .sidebar {
+  background: linear-gradient(180deg, #eee5d7, #f7f3eb 48%, #eee6d9);
+  border-color: #d9cebd;
+}
+
+:root[data-theme="light"] .brand {
+  color: #29231d;
+}
+
+:root[data-theme="light"] .side-section-label,
+:root[data-theme="light"] .section-eyebrow,
+:root[data-theme="light"] .eyebrow,
+:root[data-theme="light"] .app-footer {
+  color: #826b47;
+}
+
+:root[data-theme="light"] .nav-link {
+  color: #70685d;
+}
+
+:root[data-theme="light"] .nav-link:hover {
+  color: #29231d;
+  background: #e8dfd2;
+}
+
+:root[data-theme="light"] .nav-link.active {
+  color: #29231d;
+  background: linear-gradient(100deg, #e9dfce, #f5efe4);
+  border-color: #cabb9f;
+  box-shadow: inset 3px 0 #8c6b32, 0 4px 16px #55412610;
+}
+
+:root[data-theme="light"] .nav-link.active svg,
+:root[data-theme="light"] .mobile-nav-link.active {
+  color: #755720;
+}
+
+:root[data-theme="light"] .sidebar-note {
+  background:
+    radial-gradient(ellipse at 90% 8%, #b69a6312, transparent 42%),
+    linear-gradient(145deg, #eee5d8, #f8f3eb 76%);
+  border-color: #d4c5ad;
+  box-shadow: inset 0 1px #ffffffb8, 0 8px 22px #55412610;
+}
+
+:root[data-theme="light"] .sanctuary-wreath {
+  color: #8c6b32;
+  opacity: .22;
+}
+
+:root[data-theme="light"] .sidebar-note p,
+:root[data-theme="light"] .account-copy strong {
+  color: #29231d;
+}
+
+:root[data-theme="light"] .sidebar-note > span,
+:root[data-theme="light"] .account-copy span {
+  color: #70685d;
+}
+
+:root[data-theme="light"] .account-chip {
+  border-color: #d9cebd;
+}
+
+:root[data-theme="light"] .hero-card {
+  background:
+    radial-gradient(ellipse at 84% 46%, #b69a6319, transparent 35%),
+    linear-gradient(113deg, #f1e4d2, #f7f0e7 65%, #ede2d5);
+  border-color: #cbb59b;
+  box-shadow: inset 0 1px #ffffffa8, 0 15px 38px #59432d12;
+}
+
+:root[data-theme="light"] .hero-card::before {
+  border-color: #8c6b323b;
+  background:
+    radial-gradient(circle, #b69a6315 0 31%, transparent 32%),
+    repeating-conic-gradient(from 7deg, #8c6b3210 0deg 1deg, transparent 1deg 15deg);
+  box-shadow: 0 0 45px #8c6b320b, inset 0 0 34px #8c6b320d;
+}
+
+:root[data-theme="light"] .hero-card::after {
+  background: linear-gradient(90deg, transparent, #8c6b3280, #963b3e70, transparent);
+}
+
+:root[data-theme="light"] .hero-content p {
+  color: #70685d;
+}
+
+:root[data-theme="light"] .hero-art {
+  color: #29231d;
+}
+
+:root[data-theme="light"] .hero-orbit {
+  border-color: #8c6b3248;
+}
+
+:root[data-theme="light"] .hero-art-core {
+  color: #fff8eb;
+  background: radial-gradient(circle, #963b3e, #512a2a);
+  border-color: #8c6b3290;
+}
+
+:root[data-theme="light"] .stat-card,
+:root[data-theme="light"] .macro-card,
+:root[data-theme="light"] .chart-card,
+:root[data-theme="light"] .form-card,
+:root[data-theme="light"] .exercise-section,
+:root[data-theme="light"] .settings-card,
+:root[data-theme="light"] .account-card,
+:root[data-theme="light"] .workout-history-card {
+  color: var(--olympus-marble);
+  background-color: var(--olympus-basalt);
+  border-color: var(--olympus-bronze);
+  box-shadow: inset 0 1px #ffffff, 0 8px 24px #59432d0b;
+}
+
+:root[data-theme="light"] .macro-card:hover,
+:root[data-theme="light"] .stat-card:hover,
+:root[data-theme="light"] .workout-history-card:hover,
+:root[data-theme="light"] .chart-card:hover,
+:root[data-theme="light"] .form-card:hover,
+:root[data-theme="light"] .exercise-section:hover,
+:root[data-theme="light"] .settings-card:hover {
+  border-color: #b7a17e;
+  box-shadow: 0 12px 30px #59432d12, 0 0 24px #b69a630d;
+}
+
+:root[data-theme="light"] .page-heading h1,
+:root[data-theme="light"] .section-heading h2,
+:root[data-theme="light"] .hero-content h2,
+:root[data-theme="light"] .form-card-heading h2,
+:root[data-theme="light"] .nutrition-side-card h3,
+:root[data-theme="light"] .split-card-copy h2,
+:root[data-theme="light"] .exercise-section-heading h2,
+:root[data-theme="light"] .rest-day-card h2,
+:root[data-theme="light"] .settings-card-heading h2,
+:root[data-theme="light"] .body-modal-heading h2,
+:root[data-theme="light"] .login-form-wrap h2,
+:root[data-theme="light"] .visual-content h1,
+:root[data-theme="light"] .stat-main,
+:root[data-theme="light"] .macro-label,
+:root[data-theme="light"] .macro-values > strong,
+:root[data-theme="light"] .body-estimate-bmi > strong,
+:root[data-theme="light"] .body-estimate-calories > div > strong,
+:root[data-theme="light"] .body-settings-summary strong {
+  color: #29231d;
+}
+
+:root[data-theme="light"] .page-heading > p,
+:root[data-theme="light"] .today-strip,
+:root[data-theme="light"] .stat-bottom,
+:root[data-theme="light"] .stat-caption,
+:root[data-theme="light"] .macro-goal,
+:root[data-theme="light"] .macro-remaining,
+:root[data-theme="light"] .settings-card-heading p,
+:root[data-theme="light"] .settings-actions > span,
+:root[data-theme="light"] .account-detail > div:last-child > span {
+  color: #70685d;
+}
+
+:root[data-theme="light"] .macro-icon,
+:root[data-theme="light"] .stat-icon,
+:root[data-theme="light"] .cta-icon,
+:root[data-theme="light"] .form-card-icon,
+:root[data-theme="light"] .settings-icon {
+  color: #755720 !important;
+  background-color: #eee5d6 !important;
+}
+
+:root[data-theme="light"] .stat-icon.flame,
+:root[data-theme="light"] .macro-card:nth-child(1) .macro-icon {
+  color: #963b3e !important;
+  background-color: #f1e2dd !important;
+}
+
+:root[data-theme="light"] .macro-card:nth-child(2) .macro-icon {
+  color: #494139 !important;
+  background-color: #eee9df !important;
+}
+
+:root[data-theme="light"] .macro-card:nth-child(3) .macro-icon {
+  color: #66704d !important;
+  background-color: #e9ecdf !important;
+}
+
+:root[data-theme="light"] .macro-card:nth-child(4) .macro-icon {
+  color: #755720 !important;
+  background-color: #eee5d6 !important;
+}
+
+:root[data-theme="light"] .progress-ring {
+  background: conic-gradient(var(--ring-color) var(--ring-progress), #e5ded3 0);
+}
+
+:root[data-theme="light"] .macro-card:nth-child(2) .progress-ring {
+  --ring-color: #716858 !important;
+}
+
+:root[data-theme="light"] .ring-center {
+  color: #29231d;
+  background: #fffdf9;
+}
+
+:root[data-theme="light"] .stat-main > span,
+:root[data-theme="light"] .macro-values > strong span {
+  color: #70685d;
+}
+
+:root[data-theme="light"] .mini-progress {
+  background: #e5ded3;
+}
+
+:root[data-theme="light"] .chart-period,
+:root[data-theme="light"] .date-pill {
+  color: #494139;
+  background: #f2ece2;
+  border-color: #d9cebd;
+}
+
+:root[data-theme="light"] .bottom-cta,
+:root[data-theme="light"] .nutrition-side-card,
+:root[data-theme="light"] .workout-split-card {
+  background: linear-gradient(145deg, #f0e5d9, #fffdf9);
+  border-color: #d4c5ad;
+}
+
+:root[data-theme="light"] .meal-core,
+:root[data-theme="light"] .rest-icon,
+:root[data-theme="light"] .split-side-icon {
+  color: #fff8eb;
+  background: radial-gradient(circle, #963b3e, #512a2a);
+  border-color: #963b3e88;
+}
+
+:root[data-theme="light"] .field-label input,
+:root[data-theme="light"] .exercise-row > input,
+:root[data-theme="light"] .exercise-name-field input,
+:root[data-theme="light"] .workout-date-control input,
+:root[data-theme="light"] .split-select-wrap select,
+:root[data-theme="light"] .body-input-grid .field-label input,
+:root[data-theme="light"] .body-metrics-form > .field-label select,
+:root[data-theme="light"] .auth-form input {
+  color: #29231d;
+  background: #fffdf9;
+  border-color: #d4c5ad;
+}
+
+:root[data-theme="light"] .field-label input::placeholder,
+:root[data-theme="light"] .auth-form input::placeholder {
+  color: #928879;
+}
+
+:root[data-theme="light"] .primary-button,
+:root[data-theme="light"] .cta-button {
+  color: #fff8eb;
+  background: #963b3e;
+  box-shadow: 0 5px 18px #963b3e24, inset 0 1px #ffffff40;
+}
+
+:root[data-theme="light"] .primary-button:hover,
+:root[data-theme="light"] .cta-button:hover {
+  background: #a94a4d;
+}
+
+:root[data-theme="light"] .add-session-button,
+:root[data-theme="light"] .google-button,
+:root[data-theme="light"] .signout-button,
+:root[data-theme="light"] .unit-switch {
+  color: #494139;
+  background: #f2ece2;
+  border-color: #d4c5ad;
+}
+
+:root[data-theme="light"] .food-result,
+:root[data-theme="light"] .food-entry,
+:root[data-theme="light"] .empty-food-log,
+:root[data-theme="light"] .empty-workout-history,
+:root[data-theme="light"] .body-settings-summary > div,
+:root[data-theme="light"] .body-estimate-card {
+  color: #29231d;
+  background: #f7f2e9;
+  border-color: #d9cebd;
+}
+
+:root[data-theme="light"] .food-result:hover {
+  background: #f0e5d9;
+  border-color: #b7a17e;
+}
+
+:root[data-theme="light"] .selected-food-form,
+:root[data-theme="light"] .custom-food-form {
+  background: #f3e9e1;
+  border-color: #d4bcb0;
+}
+
+:root[data-theme="light"] .error-card,
+:root[data-theme="light"] .form-alert {
+  color: #7e302f;
+  background: #f7e9e3;
+  border-color: #dfb9ae;
+}
+
+:root[data-theme="light"] .success-card,
+:root[data-theme="light"] .setup-alert {
+  color: #4c5638;
+  background: #edf0e3;
+  border-color: #cbd2b5;
+}
+
+:root[data-theme="light"] .setup-alert span {
+  color: #60694b;
+}
+
+:root[data-theme="light"] .login-visual {
+  background: radial-gradient(ellipse at 73% 41%, #eadcc9 0, #f4ece0 36%, #f4efe6 76%);
+  border-color: #d9cebd;
+}
+
+:root[data-theme="light"] .visual-content > p,
+:root[data-theme="light"] .visual-stats > div > div > span,
+:root[data-theme="light"] .login-subtitle,
+:root[data-theme="light"] .auth-switch,
+:root[data-theme="light"] .privacy-note,
+:root[data-theme="light"] .auth-form > label {
+  color: #70685d;
+}
+
+:root[data-theme="light"] .visual-stats strong {
+  color: #29231d;
+}
+
+:root[data-theme="light"] .visual-content h1 em,
+:root[data-theme="light"] .auth-switch button {
+  color: #755720;
+}
+
+:root[data-theme="light"] .body-modal {
+  background: linear-gradient(155deg, #f4e9df, #fffdf9 52%);
+  border-color: #d4bcb0;
+}
+
+:root[data-theme="light"] .body-modal-icon {
+  color: #755720;
+  background: #eee5d6;
+  border-color: #cabb9f;
+}
+
+:root[data-theme="light"] .mobile-nav {
+  background: #f4efe6f5;
+  border-color: #d9cebd;
+}
+
+:root[data-theme="light"] .mobile-nav-link {
+  color: #70685d;
+}
+
+:root[data-theme="light"] .mobile-nav-link.active {
+  color: #755720;
+}
+
+:root[data-theme="light"] .splash-screen {
+  background:
+    radial-gradient(ellipse at 50% 43%, #e5d3bd 0, #f2e9dc 32%, transparent 68%),
+    radial-gradient(ellipse at 50% 44%, #b69a6319, transparent 43%),
+    linear-gradient(180deg, #f4efe6 0%, #eee5d7 48%, #f4efe6 100%);
+}
+
+:root[data-theme="light"] .splash-wordmark {
+  color: #29231d;
+}
+
+:root[data-theme="light"] .splash-tagline,
+:root[data-theme="light"] .splash-loading,
+:root[data-theme="light"] .splash-coordinates {
+  color: #826b47;
+}
+
+.theme-control {
+  display: grid;
+  width: min(100%, 360px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  padding: 6px;
+  background: #100e0c;
+  border: 1px solid #43362d;
+  border-radius: 10px;
+}
+
+.theme-option {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  color: #a69e91;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: color .2s ease, background-color .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+.theme-option:hover {
+  color: #f1eadf;
+  background: #211a17;
+}
+
+.theme-option.active {
+  color: #f1eadf;
+  background: linear-gradient(145deg, #38241f, #251a16);
+  border-color: #72593a;
+  box-shadow: inset 0 1px #ffffff13, 0 3px 12px #0002;
+}
+
+.theme-option.active svg {
+  color: #d2c29d;
+}
+
+.theme-option:focus-visible {
+  outline: 2px solid var(--olympus-gold);
+  outline-offset: 2px;
+}
+
+:root[data-theme="light"] .theme-control {
+  background: #f2ece2;
+  border-color: #d4c5ad;
+}
+
+:root[data-theme="light"] .theme-option {
+  color: #70685d;
+}
+
+:root[data-theme="light"] .theme-option:hover {
+  color: #29231d;
+  background: #e9dfd1;
+}
+
+:root[data-theme="light"] .theme-option.active {
+  color: #29231d;
+  background: linear-gradient(145deg, #fffdf9, #eee5d7);
+  border-color: #cabb9f;
+  box-shadow: inset 0 1px #ffffff, 0 3px 10px #59432d10;
+}
+
+:root[data-theme="light"] .theme-option.active svg {
+  color: #755720;
+}
+
+.side-section-label,
+.section-eyebrow,
+.eyebrow,
+.app-footer {
+  color: var(--olympus-gold);
+}
+
+.page-heading h1,
+.section-heading h2,
+.hero-content h2,
+.form-card-heading h2,
+.nutrition-side-card h3,
+.split-card-copy h2,
+.exercise-section-heading h2,
+.rest-day-card h2,
+.settings-card-heading h2,
+.body-modal-heading h2,
+.login-form-wrap h2,
+.visual-content h1 {
+  color: var(--olympus-marble);
+}
+
+.page-heading > p,
+.hero-content p,
+.sidebar-note > span,
+.account-copy span,
+.today-strip,
+.stat-bottom,
+.macro-goal,
+.macro-remaining {
+  color: var(--olympus-ash);
+}
+
+.hero-card {
+  background:
+    radial-gradient(ellipse at 84% 46%, #b69a6315, transparent 35%),
+    linear-gradient(113deg, #32191a, #211715 65%, #15110f);
+  border-color: #654036;
+}
+
+.hero-card::before {
+  border-color: #b69a632b;
+  background:
+    radial-gradient(circle, #b69a630d 0 31%, transparent 32%),
+    repeating-conic-gradient(from 7deg, #b69a630b 0deg 1deg, transparent 1deg 15deg);
+}
+
+.hero-card::after {
+  background: linear-gradient(90deg, transparent, #b69a6380, #8f303580, transparent);
+}
+
+.hero-art-core {
+  color: var(--olympus-marble);
+  background: radial-gradient(circle, #78353a, #271515);
+  border-color: #b69a6370;
+  box-shadow: 0 0 30px #8f303544, 0 0 36px #b69a6318;
+}
+
+.hero-orbit {
+  border-color: #b69a6340;
+}
+
+.hero-link,
+.text-link,
+.card-action,
+.add-exercise {
+  color: var(--olympus-gold-light);
+}
+
+.hero-link:hover,
+.text-link:hover,
+.card-action:hover {
+  color: #e5d5ad;
+}
+
+.stat-card,
+.macro-card,
+.chart-card,
+.form-card,
+.exercise-section,
+.settings-card,
+.account-card,
+.workout-history-card {
+  color: var(--olympus-marble);
+  background-color: var(--olympus-basalt);
+  border-color: var(--olympus-bronze);
+}
+
+.stat-card,
+.macro-card,
+.chart-card,
+.form-card,
+.exercise-section,
+.settings-card,
+.account-card,
+.workout-history-card {
+  box-shadow: inset 0 1px #ffffff08, 0 8px 24px #0003;
+}
+
+.macro-card:hover,
+.stat-card:hover,
+.workout-history-card:hover,
+.chart-card:hover,
+.form-card:hover,
+.exercise-section:hover,
+.settings-card:hover {
+  border-color: #675442;
+  box-shadow: 0 12px 30px #0004, 0 0 24px #b69a630b;
+}
+
+.macro-icon,
+.stat-icon,
+.cta-icon,
+.form-card-icon,
+.settings-icon {
+  color: var(--olympus-gold-light) !important;
+  background-color: #30251d !important;
+}
+
+.stat-icon.flame,
+.macro-card:nth-child(1) .macro-icon {
+  color: #d48a7d !important;
+  background-color: #3b2020 !important;
+}
+
+.macro-card:nth-child(2) .macro-icon {
+  color: var(--olympus-marble) !important;
+  background-color: #302b27 !important;
+}
+
+.macro-card:nth-child(3) .macro-icon {
+  color: #a7aa8a !important;
+  background-color: #292b20 !important;
+}
+
+.macro-card:nth-child(4) .macro-icon {
+  color: var(--olympus-gold-light) !important;
+  background-color: #30251d !important;
+}
+
+.progress-ring {
+  background: conic-gradient(var(--ring-color) var(--ring-progress), #38332e 0);
+  filter: drop-shadow(0 0 9px #b69a6310);
+}
+
+.ring-center {
+  color: var(--olympus-marble);
+  background: #171412;
+}
+
+.macro-label,
+.macro-values > strong,
+.stat-main {
+  color: var(--olympus-marble);
+}
+
+.macro-values > strong span,
+.stat-main > span {
+  color: var(--olympus-ash);
+}
+
+.mini-progress {
+  background: #39332d;
+}
+
+.mini-progress > span,
+.stat-line {
+  background: var(--olympus-terracotta);
+}
+
+.chart-period,
+.date-pill {
+  color: var(--olympus-marble);
+  background: #211a17;
+  border-color: var(--olympus-bronze);
+}
+
+.chart-foot .gray-dot {
+  background: var(--olympus-laurel);
+}
+
+.chart-foot .blue-dot {
+  background: var(--olympus-gold);
+}
+
+.bottom-cta,
+.nutrition-side-card,
+.workout-split-card {
+  background: linear-gradient(145deg, #251817, #171412);
+  border-color: #49362e;
+}
+
+.nutrition-side-art {
+  background: radial-gradient(ellipse at center, #8f303527, transparent 66%);
+}
+
+.meal-orbit,
+.meal-orbit::before,
+.meal-orbit::after {
+  border-color: #b69a6355;
+}
+
+.meal-core,
+.rest-icon,
+.split-side-icon {
+  color: var(--olympus-marble);
+  background: radial-gradient(circle, #643036, #271515);
+  border-color: #8f303588;
+}
+
+.split-select-wrap select,
+.field-label input,
+.exercise-row > input,
+.exercise-name-field input,
+.workout-date-control input,
+.body-input-grid .field-label input,
+.body-metrics-form > .field-label select,
+.auth-form input {
+  color: var(--olympus-marble);
+  background: #100e0c;
+  border-color: #43362d;
+}
+
+.split-select-wrap select:focus,
+.field-label input:focus,
+.exercise-row input:focus,
+.workout-date-control input:focus,
+.body-input-grid .field-label input:focus,
+.body-metrics-form > .field-label select:focus,
+.auth-form input:focus {
+  border-color: var(--olympus-gold);
+  box-shadow: 0 0 0 2px #b69a6326;
+}
+
+.field-label input::placeholder,
+.auth-form input::placeholder {
+  color: #777064;
+}
+
+.primary-button,
+.cta-button {
+  color: var(--olympus-marble);
+  background: var(--olympus-terracotta);
+  box-shadow: 0 5px 18px #8f303533, inset 0 1px #ffffff2b;
+}
+
+.primary-button:hover,
+.cta-button:hover {
+  background: #a34145;
+  box-shadow: 0 7px 24px #8f303555, inset 0 1px #ffffff38;
+}
+
+.add-session-button,
+.google-button,
+.signout-button,
+.unit-switch {
+  color: #d1c7b8;
+  background: #211a17;
+  border-color: #493a30;
+}
+
+.add-session-button:hover,
+.google-button:hover:not(:disabled),
+.signout-button:hover {
+  color: var(--olympus-marble);
+  background: #2a201b;
+  border-color: #776044;
+}
+
+.exercise-count {
+  color: var(--olympus-gold-light);
+  background: #30251d;
+}
+
+.volume-total strong,
+.workout-history-card[open] .workout-history-chevron {
+  color: var(--olympus-gold-light);
+}
+
+.food-result,
+.food-entry,
+.empty-food-log,
+.empty-workout-history {
+  color: var(--olympus-marble);
+  background: #100e0c;
+  border-color: #3c3028;
+}
+
+.food-result:hover {
+  background: #211817;
+  border-color: #765143;
+}
+
+.selected-food-form,
+.custom-food-form,
+.body-estimate-card {
+  background: #211817;
+  border-color: #68413c;
+}
+
+.setup-alert,
+.success-card {
+  color: #d9dcc5;
+  background: #22251b;
+  border-color: #454833;
+}
+
+.setup-alert span,
+.success-card {
+  color: #c3c5ad;
+}
+
+.error-card,
+.form-alert {
+  color: #e0aaa0;
+  background: #281b19;
+  border-color: #613832;
+}
+
+.login-page {
+  color: var(--olympus-marble);
+  background: var(--olympus-obsidian);
+}
+
+.login-visual {
+  background:
+    radial-gradient(ellipse at 73% 41%, #49302a 0, #211716 36%, #0d0c0b 76%);
+  border-color: #3c3028;
+}
+
+.login-visual::before,
+.login-visual::after {
+  border-color: #b69a632e;
+}
+
+.visual-kicker,
+.form-kicker,
+.login-footnote {
+  color: var(--olympus-gold);
+}
+
+.visual-content > p,
+.visual-stats > div > div > span,
+.login-subtitle,
+.auth-switch,
+.privacy-note {
+  color: var(--olympus-ash);
+}
+
+.visual-stats strong {
+  color: var(--olympus-marble);
+}
+
+.visual-stat-icon.lime,
+.visual-stat-icon.orange,
+.visual-stat-icon.blue {
+  color: var(--olympus-gold-light);
+  background: #30251d;
+}
+
+.visual-content h1 em,
+.auth-switch button {
+  color: var(--olympus-gold-light);
+}
+
+.auth-form > label {
+  color: #c2b8a8;
+}
+
+.auth-divider span {
+  background: #3c3028;
+}
+
+.body-modal {
+  background: linear-gradient(155deg, #261817, #171412 52%);
+  border-color: #68413c;
+}
+
+.body-modal-icon {
+  color: var(--olympus-gold-light);
+  background: #35251f;
+  border-color: #775844;
+}
+
+.app-footer {
+  border-color: #302720;
+}
+
+.splash-screen {
+  background:
+    radial-gradient(ellipse at 50% 43%, #49302a 0, #211514 32%, transparent 68%),
+    radial-gradient(ellipse at 50% 44%, #b69a6312, transparent 43%),
+    linear-gradient(180deg, #0d0c0b 0%, #17110f 48%, #0d0c0b 100%);
+}
+
+.splash-temple {
+  color: var(--olympus-gold);
+}
+
+.splash-wordmark > span,
+.splash-dot-two {
+  color: var(--olympus-gold);
+}
+
+.splash-progress > span {
+  background: linear-gradient(90deg, transparent, var(--olympus-terracotta), #c98270);
+  box-shadow: 0 0 11px #8f303588;
+}
+
+.mobile-nav {
+  background: #171412f5;
+  border-color: #3c3028;
+}
+
+.mobile-nav-link {
+  color: var(--olympus-ash);
+}
+
+.mobile-nav-link.active {
   color: var(--olympus-gold-light);
 }
 

@@ -25,6 +25,8 @@ Workout logs can be backfilled by selecting a past date in the workout date pick
 
 On first sign-in, users complete a required adult body-metrics setup before accessing the dashboard. A BMI estimate and Mifflin–St Jeor calorie estimate use age, height, weight, equation coefficient, and activity level. Users can instead enter a custom daily calorie target and activity-energy estimate. The selected calorie target updates the profile's daily calorie goal; body metrics and estimates are available to edit later in Settings. These estimates are informational, not medical advice or an exercise prescription.
 
+Use **Settings → Appearance → Theme** to switch manually between the Olympus dark and light palettes. The selection is saved in this browser and remains in effect after a reload.
+
 ## Firestore collections
 
 - `users/{uid}` — email and `macro_goals` (calories, protein, carbs, fats).

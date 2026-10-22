@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Check, LogOut, Target } from "../components/Icons.jsx";
+import { Check, LogOut, Moon, Sun, Target } from "../components/Icons.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import { updateMacroGoals } from "../services/firestore.js";
 
@@ -10,7 +10,7 @@ const fields = [
   { key: "fats", label: "Fats", unit: "g" },
 ];
 
-export default function SettingsPage({ profile, onProfileUpdate, onEditBodyMetrics }) {
+export default function SettingsPage({ profile, theme, onThemeChange, onProfileUpdate, onEditBodyMetrics }) {
   const { user, signOutUser } = useAuth();
   const [goals, setGoals] = useState(profile?.macro_goals || {});
   const [busy, setBusy] = useState(false);
@@ -52,6 +52,30 @@ export default function SettingsPage({ profile, onProfileUpdate, onEditBodyMetri
           </div>
           <div className="settings-actions"><span>Changes apply to today's dashboard.</span><button className="primary-button" type="submit" disabled={busy}>{busy ? "Saving…" : "Save targets"} {!busy && <Check size={15} />}</button></div>
         </form>
+      </section>
+      <section className="settings-card appearance-settings-card">
+        <div className="settings-card-heading">
+          <span className="settings-icon"><Sun size={18} /></span>
+          <div><span className="section-eyebrow">APPEARANCE</span><h2>Theme</h2><p>Choose the look that suits your training space.</p></div>
+        </div>
+        <div className="theme-control" role="group" aria-label="Choose color theme">
+          <button
+            className={`theme-option ${theme === "light" ? "active" : ""}`}
+            type="button"
+            aria-pressed={theme === "light"}
+            onClick={() => onThemeChange("light")}
+          >
+            <Sun size={17} /><span>Light</span>
+          </button>
+          <button
+            className={`theme-option ${theme === "dark" ? "active" : ""}`}
+            type="button"
+            aria-pressed={theme === "dark"}
+            onClick={() => onThemeChange("dark")}
+          >
+            <Moon size={17} /><span>Dark</span>
+          </button>
+        </div>
       </section>
       <section className="settings-card body-settings-card">
         <div className="settings-card-heading"><span className="settings-icon"><Target size={18} /></span><div><span className="section-eyebrow">PERSONAL BASELINE</span><h2>BMI & energy estimates</h2><p>Your height, weight, activity and calorie target used by APEX.</p></div></div>

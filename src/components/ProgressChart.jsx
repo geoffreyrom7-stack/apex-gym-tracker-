@@ -23,19 +23,19 @@ export default function ProgressChart({ logs, calorieGoal }) {
     <div className="chart-wrap">
       <ResponsiveContainer width="100%" height="100%">
         <ComposedChart data={data} margin={{ top: 8, right: 2, left: -18, bottom: 0 }}>
-          <CartesianGrid stroke="#252b27" strokeDasharray="3 5" vertical={false} />
-          <XAxis dataKey="day" tick={{ fill: "#8d9690", fontSize: 11 }} axisLine={false} tickLine={false} dy={9} />
-          <YAxis yAxisId="calories" tick={{ fill: "#737d76", fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(value) => `${value / 1000}k`} />
+          <CartesianGrid stroke="var(--olympus-bronze)" strokeDasharray="3 5" vertical={false} />
+          <XAxis dataKey="day" tick={{ fill: "var(--olympus-ash)", fontSize: 11 }} axisLine={false} tickLine={false} dy={9} />
+          <YAxis yAxisId="calories" tick={{ fill: "var(--chart-axis)", fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(value) => `${value / 1000}k`} />
           <YAxis yAxisId="volume" orientation="right" hide />
           <Tooltip
-            contentStyle={{ background: "#171b18", border: "1px solid #2b332e", borderRadius: 12, color: "#f2f5f2", fontSize: 12 }}
-            labelStyle={{ color: "#a8b1aa", marginBottom: 7 }}
+            contentStyle={{ background: "var(--chart-tooltip-bg)", border: "1px solid var(--olympus-bronze)", borderRadius: 12, color: "var(--olympus-marble)", fontSize: 12 }}
+            labelStyle={{ color: "var(--olympus-ash)", marginBottom: 7 }}
             formatter={(value, name) => [formatNumber(value), name === "calories" ? "Calories" : name === "goal" ? "Calorie goal" : "Lift volume (lb)"]}
           />
-          <Legend verticalAlign="top" align="right" iconType="circle" iconSize={7} wrapperStyle={{ fontSize: 11, color: "#a2aaa4", paddingBottom: 15 }} />
-          <Line yAxisId="calories" type="monotone" dataKey="calories" name="Calories" stroke="#c1121f" strokeWidth={2.5} dot={{ r: 3, fill: "#c1121f", strokeWidth: 0 }} activeDot={{ r: 5 }} />
-          <Line yAxisId="calories" type="monotone" dataKey="goal" name="Goal" stroke="#777777" strokeWidth={1.5} strokeDasharray="5 5" dot={false} />
-          <Line yAxisId="volume" type="monotone" dataKey="volume" name="Lift volume" stroke="#f2f2f2" strokeWidth={2} dot={{ r: 2, fill: "#f2f2f2", strokeWidth: 0 }} activeDot={{ r: 4 }} />
+          <Legend verticalAlign="top" align="right" iconType="circle" iconSize={7} wrapperStyle={{ fontSize: 11, color: "var(--olympus-ash)", paddingBottom: 15 }} />
+          <Line yAxisId="calories" type="monotone" dataKey="calories" name="Calories" stroke="var(--olympus-terracotta)" strokeWidth={2.5} dot={{ r: 3, fill: "var(--olympus-terracotta)", strokeWidth: 0 }} activeDot={{ r: 5 }} />
+          <Line yAxisId="calories" type="monotone" dataKey="goal" name="Goal" stroke="var(--olympus-laurel)" strokeWidth={1.5} strokeDasharray="5 5" dot={false} />
+          <Line yAxisId="volume" type="monotone" dataKey="volume" name="Lift volume" stroke="var(--olympus-gold)" strokeWidth={2} dot={{ r: 2, fill: "var(--olympus-gold)", strokeWidth: 0 }} activeDot={{ r: 4 }} />
         </ComposedChart>
       </ResponsiveContainer>
     </div>
