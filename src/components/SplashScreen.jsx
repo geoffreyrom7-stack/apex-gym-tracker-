@@ -1,3 +1,5 @@
+import ApexMark from "./ApexMark.jsx";
+
 export default function SplashScreen({ exiting = false }) {
   return (
     <main
@@ -12,19 +14,19 @@ export default function SplashScreen({ exiting = false }) {
           <span className="splash-ring splash-ring-middle" />
           <span className="splash-ring splash-ring-inner" />
           <span className="splash-scan" />
-          <span className="splash-emblem-letter">A</span>
+          <ApexMark />
           <span className="splash-target-dot splash-dot-one" />
           <span className="splash-target-dot splash-dot-two" />
           <span className="splash-target-dot splash-dot-three" />
         </div>
         <div className="splash-wordmark">APEX<span>.</span></div>
-        <p className="splash-tagline">BUILT FOR THE HUNT</p>
+        <p className="splash-tagline">FORGED FOR THE ASCENT</p>
         <div className="splash-progress" aria-hidden="true">
           <span />
         </div>
         <p className="splash-loading">INITIALIZING YOUR EDGE</p>
       </div>
-      <div className="splash-coordinates" aria-hidden="true">A / 001&nbsp;&nbsp; · &nbsp;&nbsp;NO SHORTCUTS</div>
+      <div className="splash-coordinates" aria-hidden="true">OLYMPUS / 001&nbsp;&nbsp; · &nbsp;&nbsp;NO SHORTCUTS</div>
     </main>
   );
 }
