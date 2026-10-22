@@ -778,17 +778,28 @@ body, .main-content, .boot-screen, .boot-error { background-color: #090909; }
   transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
 }
 
+.brand-mark::before {
+  position: absolute;
+  z-index: 0;
+  inset: 3px;
+  border: 1px solid #e2c98a52;
+  border-radius: 7px 2px 7px 2px;
+  content: "";
+  pointer-events: none;
+}
+
 .brand-wreath {
   position: absolute;
-  inset: 1px;
-  width: calc(100% - 2px);
-  height: calc(100% - 2px);
+  z-index: 1;
+  inset: 2px;
+  width: calc(100% - 4px);
+  height: calc(100% - 4px);
   overflow: visible;
   stroke: currentColor;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 1.15;
-  opacity: .78;
+  stroke-width: 1.35;
+  opacity: .92;
 }
 
 .brand-letter {
@@ -803,17 +814,29 @@ body, .main-content, .boot-screen, .boot-error { background-color: #090909; }
   border: 0;
   border-radius: 0;
   font-family: Manrope, sans-serif;
-  font-size: 16px;
-  font-style: italic;
-  font-weight: 800;
+  font-size: 19px;
+  font-style: normal;
+  font-weight: 700;
   line-height: 1;
-  text-shadow: 0 1px 5px #240609;
+  text-shadow: 0 1px 5px #240609, 0 0 10px #e2c98a29;
 }
 
 .brand:hover .brand-mark {
   border-color: var(--olympus-gold-light);
   box-shadow: 0 0 23px #c1121f40, 0 0 12px #b49a6a18, inset 0 1px #ffffff40;
   transform: translateY(-1px);
+}
+
+.brand-mark::after {
+  position: absolute;
+  z-index: 2;
+  top: 4px;
+  left: 50%;
+  width: 13px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #f1dfb379, transparent);
+  content: "";
+  transform: translateX(-50%);
 }
 
 .brand-period {
@@ -2053,7 +2076,7 @@ body,
 }
 
 .splash-emblem > .brand-mark .brand-letter {
-  font-size: 25px;
+  font-size: 30px;
 }
 
 .splash-target-dot {
