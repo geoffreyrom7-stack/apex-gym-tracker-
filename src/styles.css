@@ -1040,6 +1040,7 @@ body,
 :root[data-theme="light"] .chart-card,
 :root[data-theme="light"] .form-card,
 :root[data-theme="light"] .exercise-section,
+:root[data-theme="light"] .rest-day-card,
 :root[data-theme="light"] .settings-card,
 :root[data-theme="light"] .account-card,
 :root[data-theme="light"] .workout-history-card {
@@ -1047,6 +1048,14 @@ body,
   background-color: var(--olympus-basalt);
   border-color: var(--olympus-bronze);
   box-shadow: inset 0 1px #ffffff, 0 8px 24px #59432d0b;
+}
+
+:root[data-theme="light"] .rest-day-card p {
+  color: var(--olympus-ash);
+}
+
+:root[data-theme="light"] .rest-day-card .section-eyebrow {
+  color: var(--olympus-gold);
 }
 
 :root[data-theme="light"] .macro-card:hover,
