@@ -1107,6 +1107,54 @@ body, .main-content, .boot-screen, .boot-error { background-color: #090909; }
   color: #85745c;
 }
 
+.splash-screen {
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse at 50% 43%, #361316 0, #160c0d 31%, transparent 68%),
+    radial-gradient(ellipse at 50% 44%, #b49a6a12, transparent 43%),
+    linear-gradient(180deg, #090808 0%, #100a0b 48%, #090909 100%);
+}
+
+.splash-grain {
+  z-index: 1;
+}
+
+.splash-temple {
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  width: min(82vw, 760px);
+  height: auto;
+  overflow: visible;
+  color: #c6aa72;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.1;
+  opacity: .16;
+  filter: drop-shadow(0 0 16px #c6aa7214);
+  transform: translate(-50%, -50%);
+  animation: olympus-temple-arrive 1.8s .2s ease both, olympus-temple-breathe 8s 2s ease-in-out infinite;
+}
+
+.splash-content {
+  z-index: 2;
+}
+
+.splash-emblem {
+  filter: drop-shadow(0 0 26px #b49a6a12);
+}
+
+@keyframes olympus-temple-arrive {
+  from { opacity: 0; transform: translate(-50%, -47%) scale(.98); }
+  to { opacity: .16; transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes olympus-temple-breathe {
+  50% { opacity: .22; }
+}
+
 @keyframes splash-mark-glow {
   50% {
     box-shadow:
