@@ -412,6 +412,8 @@ button { color: inherit; }
   .page-heading > p { font-size: 12px; }
   .mobile-nav { position: fixed; z-index: 20; right: 0; bottom: 0; left: 0; display: grid; grid-template-columns: repeat(4, 1fr); padding: 9px 10px calc(9px + env(safe-area-inset-bottom)); background: #101311f5; border-top: 1px solid #2a302b; backdrop-filter: blur(14px); }
   .mobile-nav-link { display: grid; justify-items: center; gap: 4px; padding: 3px 0; color: #778178; font-size: 9px; }
+  .mobile-nav-link { transition: color .2s ease, transform .2s ease; }
+
   .mobile-nav-link.active { color: var(--green); }
   .page-stack { gap: 24px; }
   .summary-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -751,15 +753,6 @@ body, .main-content, .boot-screen, .boot-error { background-color: #090909; }
   .splash-emblem { width: 132px; height: 132px; }
   .splash-coordinates { right: 15px; bottom: 15px; font-size: 6px; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .splash-screen, .splash-screen::before, .splash-screen::after, .splash-content,
-  .splash-emblem::before, .splash-ring-outer, .splash-ring-middle, .splash-scan,
-  .splash-emblem-letter, .splash-progress > span, .splash-loading {
-    animation-duration: .01ms !important;
-    animation-iteration-count: 1 !important;
-  }
-}
-
 .brand-mark {
   position: relative;
   isolation: isolate;
@@ -838,6 +831,28 @@ body, .main-content, .boot-screen, .boot-error { background-color: #090909; }
   color: var(--olympus-gold-light);
 }
 
+::view-transition-group(apex-page) {
+  animation-duration: .38s;
+  animation-timing-function: cubic-bezier(.22,.7,.25,1);
+}
+
+::view-transition-old(apex-page) {
+  animation: apex-route-exit .2s ease both;
+}
+
+::view-transition-new(apex-page) {
+  animation: apex-route-enter .34s cubic-bezier(.22,.7,.25,1) both;
+}
+
+@keyframes apex-route-exit {
+  to { opacity: 0; transform: translateY(-5px) scale(.995); }
+}
+
+@keyframes apex-route-enter {
+  from { opacity: 0; transform: translateY(9px) scale(.995); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
 .nav-link:focus-visible,
 .brand:focus-visible {
   outline: 2px solid var(--olympus-gold);
@@ -895,12 +910,6 @@ body, .main-content, .boot-screen, .boot-error { background-color: #090909; }
 
 .sidebar-note > span {
   color: #a99d91;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .brand-mark {
-    transition: none;
-  }
 }
 
 .brand,
@@ -1088,6 +1097,7 @@ body {
 .main-content {
   position: relative;
   isolation: isolate;
+  view-transition-name: apex-page;
   background:
     radial-gradient(ellipse at 88% 2%, #b49a6a07, transparent 28rem),
     transparent;
@@ -1311,25 +1321,6 @@ body {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .hero-card::before {
-    animation: none;
-  }
-
-  .stat-card,
-  .macro-card,
-  .workout-history-card,
-  .nav-link,
-  .primary-button,
-  .cta-button,
-  .hero-link,
-  .text-link,
-  .card-action,
-  .add-exercise {
-    transition: none;
-  }
-}
-
 .page-heading {
   animation: apex-rise-in .55s cubic-bezier(.2,.7,.2,1) both;
 }
@@ -1457,41 +1448,6 @@ body {
 @keyframes apex-icon-pulse {
   0%, 100% { filter: drop-shadow(0 0 0 #b49a6a00); }
   50% { filter: drop-shadow(0 0 4px #b49a6a72); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .page-heading,
-  .page-stack > *,
-  .summary-grid > *,
-  .macro-grid > *,
-  .workout-history-list > *,
-  .settings-fields > *,
-  .hero-content::after,
-  .hero-art-core,
-  .hero-orbit,
-  .progress-ring,
-  .nav-link.active svg,
-  .mobile-nav-link.active svg {
-    animation: none !important;
-  }
-
-  .nav-link:hover,
-  .mobile-nav-link:hover,
-  .primary-button:active,
-  .cta-button:active,
-  .add-session-button:active,
-  .signout-button:active {
-    transform: none;
-  }
-
-  .chart-card,
-  .form-card,
-  .exercise-section,
-  .nutrition-side-card,
-  .settings-card,
-  .account-card {
-    transition: none;
-  }
 }
 
 .sidebar-note::after {

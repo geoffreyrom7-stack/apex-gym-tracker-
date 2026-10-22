@@ -20,7 +20,7 @@ export default function Sidebar({ email }) {
         <div className="side-section-label">THE SANCTUARY</div>
         <nav className="side-nav" aria-label="Main navigation">
           {links.map(({ to, label, icon: Icon }) => (
-            <NavLink key={to} to={to} className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>
+            <NavLink key={to} to={to} viewTransition className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>
               <Icon size={18} strokeWidth={1.8} />
               <span>{label}</span>
             </NavLink>
@@ -44,7 +44,7 @@ export default function Sidebar({ email }) {
       </aside>
       <nav className="mobile-nav" aria-label="Mobile navigation">
         {links.map(({ to, label, icon: Icon }) => (
-          <NavLink key={to} to={to} className={({ isActive }) => `mobile-nav-link ${isActive ? "active" : ""}`}>
+          <NavLink key={to} to={to} viewTransition className={({ isActive }) => `mobile-nav-link ${isActive ? "active" : ""}`}>
             <Icon size={19} strokeWidth={1.8} />
             <span>{label}</span>
           </NavLink>

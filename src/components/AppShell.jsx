@@ -17,7 +17,7 @@ export default function AppShell() {
   return (
     <div className="app-shell">
       <Sidebar email={user?.email} />
-      <main className="main-content">
+      <main className="main-content" id="route-content">
         <header className="page-heading">
           <div className="eyebrow"><span className="live-dot" /> APEX / OLYMPIAN TRAINING</div>
           <h1>{title}</h1>
