@@ -50,9 +50,9 @@ export default function DashboardPage({ profile }) {
         <article className="hero-card">
           <div className="hero-glow" />
           <div className="hero-content">
-            <span className="card-kicker"><Sparkles size={13} /> APEX / TODAY'S TARGET</span>
+            <span className="card-kicker"><Sparkles size={13} /> OLYMPUS / TODAY'S TRIAL</span>
             <h2>{log?.split_type === "Rest" ? "Recovery is training, too." : `${log?.split_type || "Today's"} day.`}</h2>
-            <p>{log?.split_type === "Rest" ? "Recover with intent. Come back sharper." : "No wasted motion. Make every rep matter."}</p>
+            <p>{log?.split_type === "Rest" ? "Even the gods restore their strength. Return sharper." : "No wasted motion. Make every rep worthy of legend."}</p>
             <Link className="hero-link" to="/workout">{log?.split_type === "Rest" ? "Plan your session" : "Open workout log"} <ArrowRight size={15} /></Link>
           </div>
           <div className="hero-art" aria-hidden="true"><div className="hero-orbit orbit-one" /><div className="hero-orbit orbit-two" /><div className="hero-orbit orbit-three" /><div className="hero-art-core"><Dumbbell size={36} strokeWidth={1.2} /></div><span className="hero-art-dot dot-a" /><span className="hero-art-dot dot-b" /></div>
@@ -73,14 +73,14 @@ export default function DashboardPage({ profile }) {
       </section>
 
       <section className="section-block">
-        <div className="section-heading"><div><span className="section-eyebrow">THE DAILY CHECK-IN</span><h2>Fuel & recovery</h2></div><Link className="text-link" to="/nutrition">Log nutrition <ArrowRight size={14} /></Link></div>
+        <div className="section-heading"><div><span className="section-eyebrow">THE TEMPLE OF DISCIPLINE</span><h2>Fuel & recovery</h2></div><Link className="text-link" to="/nutrition">Log nutrition <ArrowRight size={14} /></Link></div>
         <div className="macro-grid">
           {macroItems.map((item) => <ProgressRing key={item.key} {...item} value={consumed[item.key]} goal={goals[item.key]} />)}
         </div>
       </section>
 
       <section className="section-block progress-section">
-        <div className="section-heading"><div><span className="section-eyebrow">THE BIGGER PICTURE</span><h2>Your last 7 days</h2></div><span className="chart-caption"><Activity size={14} /> DAILY MOMENTUM</span></div>
+        <div className="section-heading"><div><span className="section-eyebrow">THE ASCENT</span><h2>Your last 7 days</h2></div><span className="chart-caption"><Activity size={14} /> DAILY MOMENTUM</span></div>
         <div className="chart-card">
           <div className="chart-heading"><div><strong>Consistency over intensity.</strong><span>Calories and lifting volume, day by day.</span></div><span className="chart-period">7 DAYS <ArrowRight size={12} /></span></div>
           <ProgressChart logs={logs} calorieGoal={Number(goals.calories) || 0} />

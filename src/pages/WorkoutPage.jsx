@@ -2,12 +2,25 @@ import { useEffect, useState } from "react";
 import { Check, ChevronDown, Dumbbell, Plus, Trash2 } from "../components/Icons.jsx";
 import { splitOptions } from "../data/exercises.js";
 import { useAuth } from "../context/AuthContext.jsx";
-import { getExerciseLibrary, getOrCreateLogForDate, saveDailyLog } from "../services/firestore.js";
+import {
+  getExerciseLibrary,
+  getOrCreateLogForDate,
+  getWorkoutHistory,
+  saveDailyLog,
+  saveWorkoutSession,
+} from "../services/firestore.js";
 import { formatNumber, getWorkoutVolume } from "../utils/format.js";
 import { getLocalDateString, isValidLogDate } from "../utils/date.js";
 
 const newExercise = () => ({ exercise_name: "", sets: 3, reps: 10, weight: 0 });
 const POUNDS_PER_KILOGRAM = 2.2046226218;
+
+function describeFirestoreError(error, collectionName) {
+  if (error.code === "permission-denied") {
+    return `Firestore denied access to ${collectionName}. Publish the latest firestore.rules in the Firebase Console for gymtracker-de099, then reload APEX.`;
+  }
+  return error.message;
+}
 
 function getInitialWorkoutDate(uid) {
   const today = getLocalDateString();
@@ -32,6 +45,7 @@ export default function WorkoutPage() {
   const [log, setLog] = useState(null);
   const [exercises, setExercises] = useState([]);
   const [library, setLibrary] = useState([]);
+  const [workoutHistory, setWorkoutHistory] = useState([]);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(false);
@@ -41,17 +55,24 @@ export default function WorkoutPage() {
 
   useEffect(() => {
     let active = true;
-    getExerciseLibrary()
-      .then((exerciseLibrary) => {
-        if (active) setLibrary(exerciseLibrary);
-      })
-      .catch((loadError) => {
-        if (active) setError(loadError.message);
+    Promise.allSettled([getExerciseLibrary(), getWorkoutHistory(user.uid)])
+      .then(([exerciseResult, historyResult]) => {
+        if (!active) return;
+        if (exerciseResult.status === "fulfilled") {
+          setLibrary(exerciseResult.value);
+        } else {
+          setError(describeFirestoreError(exerciseResult.reason, "exercise_library"));
+        }
+        if (historyResult.status === "fulfilled") {
+          setWorkoutHistory(historyResult.value);
+        } else {
+          setError(describeFirestoreError(historyResult.reason, "daily_logs"));
+        }
       });
     return () => {
       active = false;
     };
-  }, []);
+  }, [user.uid]);
 
   useEffect(() => {
     let active = true;
@@ -66,10 +87,11 @@ export default function WorkoutPage() {
       .then((dailyLog) => {
         if (!active) return;
         setLog(dailyLog);
-        setExercises(dailyLog.workouts?.length ? dailyLog.workouts : [newExercise()]);
+        setExercises([newExercise()]);
+        setHasSavedWorkout(Boolean(dailyLog.workouts?.length));
       })
       .catch((loadError) => {
-        if (active) setError(loadError.message);
+        if (active) setError(describeFirestoreError(loadError, "daily_logs"));
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -136,24 +158,42 @@ export default function WorkoutPage() {
         reps: Number(exercise.reps) || 0,
         weight: Number(exercise.weight) || 0,
       }));
-      const workouts = hasSavedWorkout
-        ? [...(log.workouts || []), ...savedExercises]
-        : savedExercises;
+      if (activeSplit === "Rest") {
+        const nextLog = { ...log, workouts: [] };
+        await saveDailyLog(user.uid, selectedDate, nextLog);
+        setLog(nextLog);
+        setExercises([newExercise()]);
+        setHasSavedWorkout(false);
+        setNotice(`Rest day saved for ${selectedDateLabel}.`);
+        return;
+      }
+
+      const session = await saveWorkoutSession(
+        user.uid,
+        selectedDate,
+        activeSplit,
+        savedExercises,
+        log,
+      );
       const nextLog = {
         ...log,
-        workouts: activeSplit === "Rest" ? [] : workouts,
+        workouts: [...(log.workouts || []), ...savedExercises],
+        workout_sessions: [...(log.workout_sessions || []), session],
       };
-      await saveDailyLog(user.uid, selectedDate, nextLog);
       setLog(nextLog);
       setExercises([newExercise()]);
-      setHasSavedWorkout(activeSplit !== "Rest");
-      setNotice(
-        activeSplit === "Rest"
-          ? `Rest day saved for ${selectedDateLabel}.`
-          : `Workout saved for ${selectedDateLabel}. Add another workout whenever you're ready.`,
+      setHasSavedWorkout(true);
+      setWorkoutHistory((current) =>
+        [session, ...current.filter((entry) => entry.session_id !== session.session_id)]
+          .sort((first, second) => {
+            const dateOrder = String(second.date).localeCompare(String(first.date));
+            return dateOrder || String(second.created_at || "").localeCompare(String(first.created_at || ""));
+          })
+          .slice(0, 100),
       );
+      setNotice(`Workout saved for ${selectedDateLabel}. Add another workout whenever you're ready.`);
     } catch (saveError) {
-      setError(saveError.message);
+      setError(describeFirestoreError(saveError, "daily_logs"));
     } finally {
       setBusy(false);
     }
@@ -235,13 +275,13 @@ export default function WorkoutPage() {
                   </div>
                 ))}
               </div>
-              <button className="add-exercise" type="button" onClick={() => setExercises((current) => [...current, newExercise()])}><span><Plus size={15} /></span> {hasSavedWorkout ? "Add another workout" : "Add another exercise"}</button>
+              <button className="add-exercise" type="button" onClick={() => setExercises((current) => [...current, newExercise()])}><span><Plus size={15} /></span> Add another exercise</button>
             </section>
             <div className="workout-save-row">
               <span><Check size={14} /> Saves to {isToday ? "today's" : selectedDateLabel} workout log</span>
-              {log.workouts?.length > 0 && !hasSavedWorkout && (
+              {hasSavedWorkout && exercises.every((exercise) => !exercise.exercise_name) && (
                 <button className="add-session-button" type="button" onClick={startAnotherWorkout}>
-                  <Plus size={14} /> Add another workout
+                  <Plus size={14} /> Start another workout
                 </button>
               )}
               <button className="primary-button" type="submit" disabled={busy}>{busy ? "Saving workout…" : "Save workout"} {!busy && <Check size={15} />}</button>
@@ -249,7 +289,52 @@ export default function WorkoutPage() {
           </>
         )}
       </form>
+      <section className="workout-history-section">
+        <div className="section-heading">
+          <div><span className="section-eyebrow">YOUR TRAINING RECORD</span><h2>Past workouts <span className="exercise-count">{workoutHistory.length}</span></h2></div>
+        </div>
+        {workoutHistory.length === 0 ? (
+          <div className="empty-workout-history">Saved workout sessions will appear here so you can revisit your training.</div>
+        ) : (
+          <div className="workout-history-list">
+            {workoutHistory.map((session) => (
+              <details className="workout-history-card" key={session.session_id}>
+                <summary>
+                  <div className="workout-history-date">
+                    <strong>{formatWorkoutDate(session.date)}</strong>
+                    <span>{session.split_type} · {session.workouts?.length || 0} exercises{session.legacy ? " · previous log" : ""}</span>
+                  </div>
+                  <div className="workout-history-volume"><span>VOLUME</span><strong>{formatNumber(session.volume_lb)} <small>lb</small></strong></div>
+                  <ChevronDown className="workout-history-chevron" size={16} />
+                </summary>
+                <div className="workout-history-exercises">
+                  {(session.workouts || []).map((exercise, index) => (
+                    <div className="workout-history-exercise" key={`${session.session_id}-${index}`}>
+                      <strong>{exercise.exercise_name}</strong>
+                      <span>{Number(exercise.sets) || 0} sets × {Number(exercise.reps) || 0} reps @ {formatWorkoutWeight(exercise.weight)} lb</span>
+                    </div>
+                  ))}
+                </div>
+              </details>
+            ))}
+          </div>
+        )}
+      </section>
       </>}
     </div>
   );
+}
+
+function formatWorkoutDate(date) {
+  return new Intl.DateTimeFormat("en", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${date}T12:00:00Z`));
+}
+
+function formatWorkoutWeight(value) {
+  return new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 }).format(Number(value) || 0);
 }

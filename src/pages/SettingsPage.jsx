@@ -10,7 +10,7 @@ const fields = [
   { key: "fats", label: "Fats", unit: "g" },
 ];
 
-export default function SettingsPage({ profile, onProfileUpdate }) {
+export default function SettingsPage({ profile, onProfileUpdate, onEditBodyMetrics }) {
   const { user, signOutUser } = useAuth();
   const [goals, setGoals] = useState(profile?.macro_goals || {});
   const [busy, setBusy] = useState(false);
@@ -52,6 +52,15 @@ export default function SettingsPage({ profile, onProfileUpdate }) {
           </div>
           <div className="settings-actions"><span>Changes apply to today's dashboard.</span><button className="primary-button" type="submit" disabled={busy}>{busy ? "Saving…" : "Save targets"} {!busy && <Check size={15} />}</button></div>
         </form>
+      </section>
+      <section className="settings-card body-settings-card">
+        <div className="settings-card-heading"><span className="settings-icon"><Target size={18} /></span><div><span className="section-eyebrow">PERSONAL BASELINE</span><h2>BMI & energy estimates</h2><p>Your height, weight, activity and calorie target used by APEX.</p></div></div>
+        <div className="body-settings-summary">
+          <div><span>BMI</span><strong>{profile.body_metrics?.bmi ?? "—"}</strong><small>{profile.body_metrics?.bmi_category || "No estimate"}</small></div>
+          <div><span>DAILY CALORIE TARGET</span><strong>{Number(profile.body_metrics?.calorie_target || profile.macro_goals?.calories || 0).toLocaleString()} <small>kcal</small></strong></div>
+          <div><span>ACTIVITY ENERGY / DAY</span><strong>{profile.body_metrics?.activity_calories == null ? "—" : Number(profile.body_metrics.activity_calories).toLocaleString()} <small>kcal</small></strong></div>
+        </div>
+        <div className="settings-actions"><span>Estimates are customizable and can be recalculated any time.</span><button className="primary-button" type="button" onClick={onEditBodyMetrics}>Edit body & calorie settings <Target size={15} /></button></div>
       </section>
       <section className="account-card"><div className="account-detail"><div className="avatar">{user?.email?.[0]?.toUpperCase() || "A"}</div><div><span className="section-eyebrow">SIGNED IN AS</span><strong>{user?.email}</strong></div></div><button className="signout-button" type="button" onClick={signOutUser}>Sign out <LogOut size={15} /></button></section>
     </div>

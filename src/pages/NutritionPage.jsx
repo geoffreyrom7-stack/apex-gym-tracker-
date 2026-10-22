@@ -101,11 +101,14 @@ export default function NutritionPage({ profile }) {
       const matchingCustomFoods = customFoods
         .filter((food) => food.name.toLocaleLowerCase().includes(query.trim().toLocaleLowerCase()))
         .map((food) => ({ ...food, category: "Saved custom food" }));
-      const onlineFoods = await searchFoods(query);
-      setResults([...matchingCustomFoods, ...onlineFoods]);
-      if (matchingCustomFoods.length + onlineFoods.length === 0) {
-        setNotice("No matches found. Add this dish as a custom food with nutrition per 100 g.");
-      }
+      const searchResult = await searchFoods(query);
+      const combinedResults = [...matchingCustomFoods, ...searchResult.foods];
+      setResults(combinedResults);
+      setNotice(searchResult.warning || (
+        combinedResults.length === 0
+          ? "No matches found. Add this dish as a custom food with nutrition per 100 g."
+          : ""
+      ));
     } catch (searchError) {
       setResults(
         customFoods
@@ -238,11 +241,11 @@ export default function NutritionPage({ profile }) {
         <section className="form-card">
           <div className="form-card-heading">
             <span className="form-card-icon"><Plus size={17} /></span>
-            <div><h2>Log a food</h2><p>Find a Filipino dish, snack, or food, then enter its weight in grams.</p></div>
+            <div><h2>Log a food</h2><p>Search dishes and snacks, then enter the portion weight in grams.</p></div>
           </div>
 
           <form className="food-search-form" onSubmit={handleSearch}>
-            <label className="field-label">FOOD NAME <span>SEARCH USDA DATABASE</span>
+            <label className="field-label food-search-label">FOOD NAME <span>BUILT-IN + USDA</span>
               <input
                 value={query}
                 onChange={(event) => {
@@ -251,7 +254,7 @@ export default function NutritionPage({ profile }) {
                   setSelectedFood(null);
                   setNotice("");
                 }}
-                placeholder="e.g. chicken adobo, sinigang, banana chips"
+                placeholder="e.g. chicken, Jollibee, Big Mac"
                 maxLength={100}
               />
             </label>
@@ -260,7 +263,7 @@ export default function NutritionPage({ profile }) {
             </button>
           </form>
 
-          <p className="food-data-note">Search USDA prepared foods, ingredients, and branded snacks. Values are estimates per 100 g; search runs when you press the button.</p>
+          <p className="food-data-note">Search built-in Filipino dishes, ingredients, and fast-food items. Macros are estimates per 100 g; USDA results are added when configured.</p>
 
           {results.length > 0 && (
             <div className="food-results" aria-label="Food search results">

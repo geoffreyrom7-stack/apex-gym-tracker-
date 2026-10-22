@@ -3,10 +3,10 @@ import Sidebar from "./Sidebar.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 
 const pageTitles = {
-  "/dashboard": ["Your training, in focus.", "Track the work. Own your progress."],
-  "/workout": ["Make it count.", "Log your session and build on what you did last time."],
-  "/nutrition": ["Fuel the hunt.", "Every meal is a chance to support your goals."],
-  "/settings": ["Set your targets.", "Define the numbers behind your next level."],
+  "/dashboard": ["Your legend is built daily.", "Track the work. Earn your place on Olympus."],
+  "/workout": ["Enter the arena.", "Log your session and build on what you did last time."],
+  "/nutrition": ["Fuel the ascent.", "Every meal is an offering to your next level."],
+  "/settings": ["Shape your quest.", "Set the targets behind your next level."],
 };
 
 export default function AppShell() {
@@ -19,12 +19,12 @@ export default function AppShell() {
       <Sidebar email={user?.email} />
       <main className="main-content">
         <header className="page-heading">
-          <div className="eyebrow"><span className="live-dot" /> APEX / DAILY TRAINING SYSTEM</div>
+          <div className="eyebrow"><span className="live-dot" /> APEX / OLYMPIAN TRAINING</div>
           <h1>{title}</h1>
           <p>{subtitle}</p>
         </header>
         <Outlet />
-        <footer className="app-footer"><span>APEX / DAILY TRAINING SYSTEM</span><span>SHOW UP. LOG IT. REPEAT.</span></footer>
+        <footer className="app-footer"><span>APEX / OLYMPIAN TRAINING</span><span>FORGE YOUR LEGEND.</span></footer>
       </main>
     </div>
   );

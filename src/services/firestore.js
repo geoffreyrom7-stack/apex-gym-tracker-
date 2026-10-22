@@ -3,8 +3,11 @@ import {
   doc,
   getDoc,
   getDocs,
+  limit,
+  query,
   runTransaction,
   setDoc,
+  where,
 } from "firebase/firestore";
 import { db } from "../firebase.js";
 import { starterExercises } from "../data/exercises.js";
@@ -31,6 +34,31 @@ export async function ensureUserProfile(user) {
 export async function updateMacroGoals(uid, goals) {
   const database = requireDatabase();
   await setDoc(doc(database, "users", uid), { macro_goals: goals }, { merge: true });
+}
+
+export async function saveBodyMetrics(uid, bodyMetrics) {
+  const database = requireDatabase();
+  const userRef = doc(database, "users", uid);
+
+  await runTransaction(database, async (transaction) => {
+    const snapshot = await transaction.get(userRef);
+    const current = snapshot.exists() ? snapshot.data() : {};
+    transaction.set(
+      userRef,
+      {
+        body_metrics: {
+          ...bodyMetrics,
+          updated_at: new Date().toISOString(),
+        },
+        macro_goals: {
+          ...defaultGoals,
+          ...(current.macro_goals || {}),
+          calories: bodyMetrics.calorie_target,
+        },
+      },
+      { merge: true },
+    );
+  });
 }
 
 export async function getOrCreateTodayLog(uid) {
@@ -70,6 +98,113 @@ export async function saveDailyLog(uid, date, log) {
     { ...log, log_id: logId, user_id: uid, date },
     { merge: true },
   );
+}
+
+export async function saveWorkoutSession(uid, date, splitType, workouts, dailyLog) {
+  if (!isValidLogDate(date) || date > getLocalDateString()) {
+    throw new Error("Choose a valid workout date.");
+  }
+  if (!Array.isArray(workouts) || workouts.length === 0) {
+    throw new Error("Add at least one exercise before saving a workout.");
+  }
+
+  const database = requireDatabase();
+  const dailyLogRef = doc(database, "daily_logs", `${date}_${uid}`);
+  const session = {
+    session_id: `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`,
+    user_id: uid,
+    date,
+    split_type: splitType,
+    workouts,
+    volume_lb: workouts.reduce(
+      (total, workout) =>
+        total +
+        (Number(workout.sets) || 0) *
+          (Number(workout.reps) || 0) *
+          (Number(workout.weight) || 0),
+      0,
+    ),
+    created_at: new Date().toISOString(),
+  };
+
+  await runTransaction(database, async (transaction) => {
+    const snapshot = await transaction.get(dailyLogRef);
+    const current = snapshot.exists() ? snapshot.data() : dailyLog;
+    transaction.set(
+      dailyLogRef,
+      {
+        ...current,
+        log_id: `${date}_${uid}`,
+        user_id: uid,
+        date,
+        split_type: splitType,
+        workouts: [...(current.workouts || []), ...workouts],
+        workout_sessions: [...(current.workout_sessions || []), session],
+      },
+      { merge: true },
+    );
+  });
+
+  return session;
+}
+
+export async function getWorkoutHistory(uid) {
+  const database = requireDatabase();
+  const dailyLogQuery = query(
+    collection(database, "daily_logs"),
+    where("user_id", "==", uid),
+    limit(100),
+  );
+
+  const dailyLogsSnapshot = await getDocs(dailyLogQuery);
+  const sessions = dailyLogsSnapshot.docs.flatMap((snapshot) => {
+    const log = snapshot.data();
+    const savedSessions = (log.workout_sessions || []).map((session) => ({
+      ...session,
+      user_id: uid,
+      date: session.date || log.date,
+      legacy: false,
+    }));
+
+    if (!log.workouts?.length || log.split_type === "Rest") return savedSessions;
+
+    const savedExerciseCount = savedSessions.reduce(
+      (count, session) => count + (session.workouts?.length || 0),
+      0,
+    );
+    const earlierExercises = log.workouts.slice(
+      0,
+      Math.max(0, log.workouts.length - savedExerciseCount),
+    );
+    if (earlierExercises.length === 0) return savedSessions;
+
+    const legacySession = {
+      session_id: `legacy-${log.log_id}`,
+      user_id: uid,
+      date: log.date,
+      split_type: log.split_type,
+      workouts: earlierExercises,
+      volume_lb: earlierExercises.reduce(
+        (total, workout) =>
+          total +
+          (Number(workout.sets) || 0) *
+            (Number(workout.reps) || 0) *
+            (Number(workout.weight) || 0),
+        0,
+      ),
+      legacy: true,
+    };
+
+    return [...savedSessions, legacySession];
+  });
+
+  return sessions
+    .sort((first, second) => {
+      const dateOrder = String(second.date).localeCompare(String(first.date));
+      if (dateOrder !== 0) return dateOrder;
+      return String(second.created_at || "").localeCompare(String(first.created_at || ""));
+    })
+    .slice(0, 100);
 }
 
 export async function addFoodEntryToToday(uid, foodEntry) {

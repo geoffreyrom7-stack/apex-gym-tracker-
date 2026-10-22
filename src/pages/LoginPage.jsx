@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Activity, ArrowRight, Check, Dumbbell, Flame, Utensils } from "../components/Icons.jsx";
+import ApexMark from "../components/ApexMark.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import { isFirebaseConfigured } from "../firebase.js";
 
@@ -39,7 +40,7 @@ export default function LoginPage() {
   return (
     <main className="login-page">
       <section className="login-visual">
-        <a className="brand login-brand" href="/"><span className="brand-mark brand-letter">A</span><span>APEX<span className="brand-period">.</span></span></a>
+        <a className="brand login-brand" href="/"><ApexMark /><span>APEX<span className="brand-period">.</span></span></a>
         <div className="visual-content">
           <div className="visual-kicker"><span /> BUILT FOR THE HUNT</div>
           <h1>Built to<br />outwork.<br /><em>Born to rise.</em></h1>
@@ -54,7 +55,7 @@ export default function LoginPage() {
       </section>
       <section className="login-form-side">
         <div className="login-form-wrap">
-          <div className="login-mobile-brand"><span className="brand-mark brand-letter">A</span>APEX<span className="brand-period">.</span></div>
+          <div className="login-mobile-brand"><ApexMark />APEX<span className="brand-period">.</span></div>
           <div className="form-kicker">YOUR PERSONAL TRAINING SYSTEM</div>
           <h2>{isSignup ? "Claim your edge." : "Back to the hunt."}</h2>
           <p className="login-subtitle">{isSignup ? "Create your account. The work starts here." : "Your next level is waiting."}</p>

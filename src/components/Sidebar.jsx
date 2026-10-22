@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { Activity, Dumbbell, LayoutDashboard, Settings, Utensils } from "./Icons.jsx";
+import ApexMark from "./ApexMark.jsx";
 
 const links = [
   { to: "/dashboard", label: "Overview", icon: LayoutDashboard },
@@ -13,10 +14,10 @@ export default function Sidebar({ email }) {
     <>
       <aside className="sidebar">
         <a className="brand" href="/dashboard" aria-label="APEX dashboard">
-          <span className="brand-mark brand-letter">A</span>
+          <ApexMark />
           <span>APEX<span className="brand-period">.</span></span>
         </a>
-        <div className="side-section-label">YOUR SPACE</div>
+        <div className="side-section-label">THE SANCTUARY</div>
         <nav className="side-nav" aria-label="Main navigation">
           {links.map(({ to, label, icon: Icon }) => (
             <NavLink key={to} to={to} className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>
@@ -27,9 +28,13 @@ export default function Sidebar({ email }) {
         </nav>
         <div className="sidebar-bottom">
           <div className="sidebar-note">
+            <svg className="sanctuary-wreath" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+              <path d="M35 80C13 63 16 29 42 14M65 80C87 63 84 29 58 14" />
+              <path d="m28 67-13-1m10-13-12-6m16-6-9-10m18 0-3-12m32 48 13-1M74 54l12-6M68 41l9-10m-18 0 3-12" />
+            </svg>
             <div className="note-icon"><SparklesIcon /></div>
-            <p>Hunt the standard.</p>
-            <span>Earn your edge every day.</span>
+            <p>Train among legends.</p>
+            <span>Earn your place on Olympus.</span>
           </div>
           <div className="account-chip">
             <div className="avatar">{email?.[0]?.toUpperCase() || "A"}</div>
