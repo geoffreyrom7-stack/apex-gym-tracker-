@@ -1,11 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  font-family: "DM Sans", Inter, sans-serif;
+  font-family: Inter, sans-serif;
   color: #f2f2f2;
   background: #090909;
   font-synthesis: none;
@@ -109,7 +109,7 @@ button { color: inherit; }
 .macro-label { color: #b8c0b9; font-size: 11px; font-weight: 500; }
 .ring-row { display: flex; align-items: center; gap: 13px; margin-top: 13px; }
 .progress-ring { display: grid; flex: none; place-items: center; width: 66px; height: 66px; border-radius: 50%; background: conic-gradient(var(--ring-color) var(--ring-progress), #2b312d 0); transform: rotate(-90deg); }
-.ring-center { display: grid; place-items: center; width: 53px; height: 53px; border-radius: 50%; background: #121513; transform: rotate(90deg); }
+.ring-center { display: grid; place-items: center; width: 53px; height: 53px; border-radius: 50%; background: #121513; }
 .ring-center strong { font-family: Manrope, sans-serif; font-size: 12px; font-weight: 700; }
 .macro-values { display: grid; min-width: 0; gap: 3px; }
 .macro-values > strong { font-family: Manrope, sans-serif; font-size: 17px; font-weight: 700; letter-spacing: -.5px; white-space: nowrap; }
@@ -929,6 +929,9 @@ body, .main-content, .boot-screen, .boot-error { background-color: #090909; }
 .page-heading h1,
 .hero-content h2,
 .section-heading h2,
+.form-card-heading h2,
+.nutrition-side-card h3,
+.split-card-copy h2,
 .exercise-section-heading h2,
 .rest-day-card h2,
 .settings-card-heading h2,
@@ -961,6 +964,38 @@ body, .main-content, .boot-screen, .boot-error { background-color: #090909; }
 
 .splash-wordmark {
   letter-spacing: .12em;
+}
+
+.stat-main,
+.ring-center strong,
+.macro-values > strong,
+.food-macro-preview strong,
+.nutrition-side-stat > strong,
+.volume-total strong,
+.workout-history-volume > strong,
+.body-estimate-bmi > strong,
+.body-estimate-calories > div > strong,
+.body-settings-summary strong,
+.boot-mark {
+  font-family: Inter, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-main > span,
+.macro-values > strong span,
+.field-label input,
+.food-macro-preview small,
+.nutrition-side-stat small,
+.workout-date-control input,
+.workout-date-hint,
+.split-select-wrap select,
+.volume-total small,
+.workout-history-volume small,
+.body-input-grid .field-label input,
+.body-metrics-form > .field-label select,
+.body-estimate-calories > div > strong small,
+.body-settings-summary strong small {
+  font-family: Inter, sans-serif;
 }
 
 .splash-screen {
